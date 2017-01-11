@@ -1,0 +1,16 @@
+
+<!-- saved from url=(0061)http://localhost:8080/partials/block-item-media.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></head><body><div class="block-item-content">
+  <div class="block-item-background image-loader" image-loader="" image-loader-src="data.featured_image"></div>
+  <h3>{{ data.name }}</h3>
+  <div class="block-item-text">
+    <h4>Dropped {{ data.dropped_at }}</h4>
+    <h2>{{ data.title }}</h2>
+    <p>{{ data.description }}</p>
+  </div>
+  <div class="block-item-controls">
+    <a ng-show="!data.locked" ng-href="#/drop/{{ data.drop_id}}?media={{data.media_index}}" class="btn-drop">{{ cta }}</a>
+    <a ng-show="data.locked" ng-href="#/drop/{{ data.drop_id}}" class="btn-drop">DROPPING SOON</a>
+  </div>
+</div>
+</body></html>

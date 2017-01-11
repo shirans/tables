@@ -18,4 +18,7 @@ hs_err_pid*
 tables.iml
 
 #target
-.target/*
+target/*
+
+#db
+database/*

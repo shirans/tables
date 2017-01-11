@@ -1,0 +1,53 @@
+
+<!-- saved from url=(0051)http://localhost:8080/partials/header.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></head><body><a class="pull-left hidden-mobile" href="http://localhost:8080/partials/header.html#/">
+  <img src="./header_files/logo.png">
+</a>
+
+<nav role="desktop-navigation" class="hidden-mobile-nav">
+  <a ng-repeat="link in links" ng-href="#{{ link.path }}" ng-class="{current: (path === link.path)}">
+    <i class="icon-drop">
+    	<svg id="THE_DROP_LANDING_w_HERO" data-name="THE DROP LANDING w/HERO" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 48.28"><defs></defs><title>drop-yellow</title><path class="cls-1" d="M841.32,3444.14h20a0,0,0,0,1,0,0v20a20,20,0,0,1-20,20h0a20,20,0,0,1-20-20v0a20,20,0,0,1,20-20Z" style="fill:{{link.color}};" transform="translate(-3024.42 -1826.33) rotate(-45)"></path></svg>
+    </i>
+    <span>{{ link.title }}</span>
+  </a>
+  <span class="share-toggle" ng-click="toggleShare()">
+    <span class="share-icon">
+    	<svg id="THE_DROP_LANDING_w_HERO" data-name="THE DROP LANDING w/HERO" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 48.28"><defs></defs><title>drop-yellow</title><path class="cls-1" d="M841.32,3444.14h20a0,0,0,0,1,0,0v20a20,20,0,0,1-20,20h0a20,20,0,0,1-20-20v0a20,20,0,0,1,20-20Z" style="fill:#f573a0;" transform="translate(-3024.42 -1826.33) rotate(-45)"></path></svg>
+    </span>
+    <span>SHARE</span>
+    <div id="share-controls">
+      <ul="share-items">
+        <li class="share-item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.spotify-thedrop.com" target="_blank" class="share-button">
+            <i class="fa fa-facebook share-icon"></i>
+          </a>
+        </li>
+        <li class="share-item">
+          <a href="https://twitter.com/home?status=Check%20out%20the%20drop" target="_blank" class="share-button">
+            <i class="fa fa-twitter share-icon"></i>
+          </a>
+        </li>
+        <li class="share-item">
+          <a href="http://www.tumblr.com/share/link?url=http%3A%2F%2Fspotify-thedrop.com" target="_blank" class="share-button">
+            <i class="fa fa-link share-icon"></i>
+          </a>
+        </li>
+      
+    </ul="share-items"></div>
+  </span>
+</nav>
+
+<a class="pull-right visible-mobile-nav mobile-trigger" ng-click="$root.expanded = !$root.expanded">
+  <i class="fa fa-bars fa-2x"></i>
+</a>
+
+<div class="pull-right renegade-logo">
+
+<!--a ng-href="https://ad.doubleclick.net/ddm/jump/N6092.143769.SPOTIFYUSAINC/B9530403.132526314;sz=1x1;ord={{timestamp}}?" target="_blank">
+  <img class="hide-small hidden-mobile-nav" src="./header_files/ren-horz-white.svg">
+  <img class="hide-large" src="./header_files/ren-vert-white.7c07f568.png">
+	<img class="ad" ng-src="https://ad.doubleclick.net/ddm/ad/N6092.143769.SPOTIFYUSAINC/B9530403.132526314;sz=1x1;ord={{timestamp}};dc_lat=;dc_rdid=;tag_for_child_directed_treatment=?" border="0" width="1" height="1" alt="Advertisement">
+</a-->
+</div>
+</body></html>
