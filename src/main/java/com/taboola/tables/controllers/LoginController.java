@@ -72,11 +72,15 @@ public class LoginController {
     }
 
     private User registerUserIfNeeded(GoogleIdToken.Payload payload) {
-        User user = userRepo.findByGmailId(payload.getEmail());
+        User user = userRepo.findByMail(payload.getEmail());
         if (user == null) {
             Object picture = payload.get("picture");
-            User newUser = new User((String) payload.get("name"), payload.getEmail(),(String) picture);
+            User newUser = new User((String) payload.get("name"), payload.getSubject(),  payload.getEmail(),(String) picture);
             user = userRepo.save(newUser);
+        }
+        else{
+            user.setGmailId(payload.getSubject());
+            userRepo.save(user);
         }
 
         return user;

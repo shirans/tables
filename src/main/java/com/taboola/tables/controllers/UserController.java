@@ -31,6 +31,15 @@ public class UserController {
 
     @RequestMapping(value = "/bulkInsert", method = RequestMethod.POST)
     public String bulkInsert(@RequestBody ArrayList<User> users){
-        return "OK";
+        int newUsersCount = 0;
+
+        for (User userInput : users){
+            User user = userRepo.findByMail(userInput.getMail());
+            if (user == null){
+                userRepo.save(user);
+                newUsersCount++;
+            }
+        }
+        return "OK: " + newUsersCount;
     }
 }
