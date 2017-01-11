@@ -41,6 +41,12 @@ public class Appointment {
         this.appointmentDate = appointmentDate;
         this.users = userList;
     }
+    public Appointment(long id, String location, LocalDateTime appointmentDate, List<User> userList) {
+        this.id = id;
+        this.location = location;
+        this.appointmentDate = appointmentDate;
+        this.users = userList;
+    }
 
     public List<User> getUsers() {
         return users;

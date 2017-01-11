@@ -66,7 +66,7 @@ public class RaffleController {
         final LocalDateTime nextTablesDate = getNextTablesDate();
 
         for (List<User> userList : groups.values()) {
-            final Appointment appointment = new Appointment("At Taboola Kitchen", nextTablesDate, userList);
+            final Appointment appointment = new Appointment( "At Taboola Kitchen", nextTablesDate, userList);
             appoitnemntRepo.save(appointment);
         }
         final Iterable<Appointment> appointments = appoitnemntRepo.findAll();
