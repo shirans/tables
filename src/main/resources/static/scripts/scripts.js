@@ -137,7 +137,7 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         return data
     }
 
-    var drops, cards, ads, base = "http://localhost:8080";
+    var drops, cards, ads, base = "/";
     this.get_drop = function (id) {
 /*
 		alert("getDrop");
@@ -174,6 +174,9 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
             console.log("result: %o", response);
             if (response != null && response.users != null){
                 var result = defaultDrop;
+
+                console.log("drop: %o", result);
+
                 //
                 // for (var i = 0; i < response.users.length; i++){
                 //     result[i + 1].description = response.users[i].name;
@@ -791,7 +794,6 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         }
     }
 });
-
 
 
 
