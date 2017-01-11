@@ -3,6 +3,7 @@ package com.taboola.tables.controllers;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -52,15 +53,30 @@ public class AppointmentController {
         }
         catch (Throwable e){
             e.printStackTrace();
+            return getFirstAppointment();
+        }
+    }
 
-            ArrayList<User> users = new ArrayList<>();
-            users.add(new User("Person 1", "1", "person1@gmail.com"));
-            users.add(new User("Person 2", "2", "person2@gmail.com"));
-            users.add(new User("Person 3", "3", "person3@gmail.com"));
-            users.add(new User("Person 4", "4", "person4@gmail.com"));
 
-            Appointment mock = new Appointment("Here", LocalDateTime.now(), users);
-            return mock;
+    private Appointment getMockAppointment(){
+        ArrayList<User> users = new ArrayList<>();
+        users.add(new User("Person 1", "1", "person1@gmail.com"));
+        users.add(new User("Person 2", "2", "person2@gmail.com"));
+        users.add(new User("Person 3", "3", "person3@gmail.com"));
+        users.add(new User("Person 4", "4", "person4@gmail.com"));
+
+        Appointment mock = new Appointment("Here", LocalDateTime.now(), users);
+        return mock;
+    }
+
+    private Appointment getFirstAppointment(){
+        try{
+            Iterator<Appointment> cursor = appointmentRepo.findAll().iterator();
+            return cursor.next();
+        }
+        catch (Throwable e){
+            e.printStackTrace();
+            return getMockAppointment();
         }
     }
 }
