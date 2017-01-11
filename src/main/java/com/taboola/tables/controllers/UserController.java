@@ -42,4 +42,10 @@ public class UserController {
         }
         return "OK: " + newUsersCount;
     }
+
+    @RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
+    public Iterable<User> getAllUsers() {
+        final Iterable<User> all = userRepo.findAll();
+        return all;
+    }
 }
