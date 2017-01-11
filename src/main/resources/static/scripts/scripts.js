@@ -162,27 +162,24 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         var dataUrl = "drops";
         var hasUserId = false;
 
-        // if (prefixPos != -1) {
-        //     hasUserId = true;
-        //     var userId = location.search.toString().substr(prefixPos + "userId=".length);
-        //     dataUrl = "/get-appointment?GmailId=" + userId;
-        // }
+        if (prefixPos != -1) {
+            hasUserId = true;
+            var userId = location.search.toString().substr(prefixPos + "userId=".length);
+            dataUrl = "/get-appointment?GmailId=" + userId;
+        }
         return $http.get(dataUrl).success(function (response) {
-            // if (response == null){
-            //     response = defaultDrop;
-            // }
             console.log("result: %o", response);
             if (response != null && response.users != null){
-                var result = testDrop;
-
-                console.log("drop: %o", result);
+                var result = defaultDrop;
 
                 for (var i = 0; i < response.users.length; i++){
                     result[0].content[i].description = response.users[i].name;
                     result[0].content[i].files[i + 3] = response.users[i].picture;
                 }
+
+                console.log("drop: %o", result);
             }
-            response = defaultDrop;
+            response = result;
             deferred.resolve(drop_shim(response[response.length - 1]))
         }), deferred.promise
     }, this.get_cards = function () {
@@ -797,8 +794,6 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
 
 
 
-
-
 var defaultDrop = [
     {
         "id": 2,
@@ -817,7 +812,7 @@ var defaultDrop = [
         "content": [{
             "id": 300,
             "drop_id": 300,
-            "title": "First Person",
+            "title": "",
             "description": "Likes to talk about AAA",
             "content_type": "playlist",
             "featured_image_id": 3,
@@ -831,7 +826,7 @@ var defaultDrop = [
             {
                 "id": 400,
                 "drop_id": 400,
-                "title": "Second Person",
+                "title": "",
                 "description": "Likes to talk about BBB",
                 "content_type": "playlist",
                 "featured_image_id": 4,
@@ -845,7 +840,7 @@ var defaultDrop = [
             {
                 "id": 500,
                 "drop_id": 500,
-                "title": "Third Person",
+                "title": "",
                 "description": "Likes to talk about CCC",
                 "content_type": "single",
                 "featured_image_id": 5,
@@ -859,81 +854,7 @@ var defaultDrop = [
             {
                 "id": 600,
                 "drop_id": 600,
-                "title": "Fourth Person",
-                "description": "Likes to talk about DDD",
-                "content_type": "playlist",
-                "featured_image_id": 6,
-                "files": {
-                    "6": {
-                        "id": 6,
-                        "url": "https:\/\/spotify-thedrop.s3.amazonaws.com\/drops\/2016-07\/af-17b58aac96bc6cde56fd151341b7b3c0.jpg"
-                    }
-                }
-            }]
-    }
-];
-
-var testDrop = [
-    {
-        "id": 2,
-        "name": "Welcome to Taboola Tables!",
-        "description": "Eat with other people and get rated!",
-        "album": "It's Fun AND delicious!",
-        "header_image_id": 2,
-        "featured_image_id": 2,
-        "featured": 2,
-        "files": {
-            "2": {
-                "id": 2,
-                "url": "http:\/\/www.yolks.ca\/wp-content\/uploads\/2015\/03\/slider2.jpg"
-            }
-        },
-        "content": [{
-            "id": 300,
-            "drop_id": 300,
-            "title": "First Person",
-            "description": "Likes to talk about AAA",
-            "content_type": "playlist",
-            "featured_image_id": 3,
-            "files": {
-                "3": {
-                    "id": 3,
-                    "url": "https:\/\/spotify-thedrop.s3.amazonaws.com\/drops\/2016-07\/af-d159a18af1d395c94f24e1130520c450.jpg"
-                }
-            }
-        },
-            {
-                "id": 400,
-                "drop_id": 400,
-                "title": "Second Person",
-                "description": "Likes to talk about BBB",
-                "content_type": "playlist",
-                "featured_image_id": 4,
-                "files": {
-                    "4": {
-                        "id": 4,
-                        "url": "https:\/\/spotify-thedrop.s3.amazonaws.com\/drops\/2016-07\/af-0fa34211b34b5e11660162d9c97aba6e.jpg"
-                    }
-                }
-            },
-            {
-                "id": 500,
-                "drop_id": 500,
-                "title": "Third Person",
-                "description": "Likes to talk about CCC",
-                "content_type": "single",
-                "featured_image_id": 5,
-                "files": {
-                    "5": {
-                        "id": 5,
-                        "url": "https:\/\/spotify-thedrop.s3.amazonaws.com\/drops\/2016-07\/af-be77563d5ec9ddd021de0fcc6e59d061.jpg"
-                    }
-                }
-            },
-            {
-                "id": 600,
-                "drop_id": 600,
-                "title": "Fourth Person",
+                "title": "",
                 "description": "Likes to talk about DDD",
                 "content_type": "playlist",
                 "featured_image_id": 6,

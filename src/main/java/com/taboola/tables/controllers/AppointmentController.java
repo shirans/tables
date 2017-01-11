@@ -54,10 +54,10 @@ public class AppointmentController {
             e.printStackTrace();
 
             ArrayList<User> users = new ArrayList<>();
-            users.add(new User("Person 1", "1"));
-            users.add(new User("Person 2", "2"));
-            users.add(new User("Person 3", "3"));
-            users.add(new User("Person 4", "4"));
+            users.add(new User("Person 1", "1", "person1@gmail.com"));
+            users.add(new User("Person 2", "2", "person2@gmail.com"));
+            users.add(new User("Person 3", "3", "person3@gmail.com"));
+            users.add(new User("Person 4", "4", "person4@gmail.com"));
 
             Appointment mock = new Appointment("Here", LocalDateTime.now(), users);
             return mock;

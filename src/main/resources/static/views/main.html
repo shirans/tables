@@ -15,9 +15,9 @@
         </div>
         <div class="bottom-hero">
             <div class="audio-player" audio-player="" audio-player-uri="featured.single_uri"></div>
-            <div class="block-item-text"><h2 id="htitle">{{ featured.name }}</h2>
-                <h3><strong>{{ featured.album }}</strong></h3>
-                <p>{{ featured.description }}</p>
+            <div class="block-item-text"><h2 id="htitle">Welcome to Taboola Tables!</h2>
+                <h3><strong>It's fun AND delicious!</strong></h3>
+                <p>Eat with other people and get rated for your awesomeness</p>
                 <div id="my-signin2"></div>
             </div>
         </div>
@@ -55,8 +55,11 @@
 
         var userId = getUserIfAlreadyLoggedIn();
 
+        console.log("google: %o", googleUser);
+
         if (userId != null){
             $("#my-signin2").hide();
+            $("#htitle").html("Welcome " + googleUser.getBasicProfile().getName());
             return;
         }
 
