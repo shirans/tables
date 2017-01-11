@@ -3,11 +3,18 @@ html, body{
 }
 
 body {
-    background: url(../images/client_dinner_party.jpg) no-repeat center center fixed;
+    background: url(../images/login-bg.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.container {
     display: flex;
     align-items: center;
     justify-content: center;
