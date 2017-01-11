@@ -1,4 +1,4 @@
-main_files"use strict";
+"use strict";
 var resolve = {
     delay: function ($q, $timeout) {
         var delay = $q.defer();
@@ -137,7 +137,7 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         return data
     }
 
-    var drops, cards, ads, base = "http://localhost:1025";
+    var drops, cards, ads, base = "http://localhost:8080";
     this.get_drop = function (id) {
 /*
 		alert("getDrop");
