@@ -5,7 +5,7 @@
 </a>
 
 <nav role="desktop-navigation" class="hidden-mobile-nav">
-  <a ng-repeat="link in links" ng-href="#{{ link.path }}" ng-class="{current: (path === link.path)}">
+  <a ng-repeat="link in links" href="" onclick="doScroll('section02');" ng-class="{current: (path === link.path)}">
     <i class="icon-drop">
     	<svg id="THE_DROP_LANDING_w_HERO" data-name="THE DROP LANDING w/HERO" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 48.28"><defs></defs><title>drop-yellow</title><path class="cls-1" d="M841.32,3444.14h20a0,0,0,0,1,0,0v20a20,20,0,0,1-20,20h0a20,20,0,0,1-20-20v0a20,20,0,0,1,20-20Z" style="fill:{{link.color}};" transform="translate(-3024.42 -1826.33) rotate(-45)"></path></svg>
     </i>
