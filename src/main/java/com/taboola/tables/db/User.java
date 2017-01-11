@@ -36,6 +36,12 @@ public class User {
     @JsonIgnore
     private List<Appointment> appointments;
 
+    public String getPicture() {
+        return picture;
+    }
+
+    private String picture;
+
     protected User() {
         Date now = new Date();
         this.creationDate = now;
@@ -64,8 +70,6 @@ public class User {
     public void setPicture(String picture) {
         this.picture = picture;
     }
-
-    private String picture;
 
     public Date getCreationDate() {
         return creationDate;
