@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 
@@ -30,6 +32,7 @@ public class User {
     private Date updateDate;
     private long nextAppointmentId;
     @ManyToMany(mappedBy="users")
+    @JsonIgnore
     private List<Appointment> appointments;
 
     protected User() {
