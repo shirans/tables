@@ -42,6 +42,10 @@ public class AppointmentController {
         try{
             final User user = userRepo.findByGmailId(gmail);
 
+            if (user == null){
+                return getFirstAppointment();
+            }
+
             final List<Appointment> appointments = user.getAppointments();
             appointments.sort((o1, o2) -> o1.getAppointmentDate().compareTo(o2.getAppointmentDate()));
             final Appointment nextAppointment = appointments.get(0);
@@ -57,6 +61,9 @@ public class AppointmentController {
         }
     }
 
+    private Appointment getRandomAppointment(){
+        return getFirstAppointment();
+    }
 
     private Appointment getMockAppointment(){
         ArrayList<User> users = new ArrayList<>();
