@@ -159,14 +159,14 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         var deferred = $q.defer();
 
         var prefixPos = location.search.toString().indexOf("userId=");
-        var dataUrl = base + "/drops?featured=1";
+        var dataUrl = "drops";
         var hasUserId = false;
 
-        if (prefixPos != -1) {
-            hasUserId = true;
-            var userId = location.search.toString().substr(prefixPos + "userId=".length);
-            dataUrl = "/get-appointment?GmailId=" + userId;
-        }
+        // if (prefixPos != -1) {
+        //     hasUserId = true;
+        //     var userId = location.search.toString().substr(prefixPos + "userId=".length);
+        //     dataUrl = "/get-appointment?GmailId=" + userId;
+        // }
         return $http.get(dataUrl).success(function (response) {
             // if (response == null){
             //     response = defaultDrop;
@@ -175,15 +175,12 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
             if (response != null && response.users != null){
                 var result = testDrop;
 
+                console.log("drop: %o", result);
 
-                //testDrop[0].content[0].files[3].url
-
-                // console.log("drop: %o", result);
-                //
-                // for (var i = 0; i < response.users.length; i++){
-                //     result[0].content[i].description = response.users[i].name;
-                //     result[0].content[i] = response.users[i].name;
-                // }
+                for (var i = 0; i < response.users.length; i++){
+                    result[0].content[i].description = response.users[i].name;
+                    result[0].content[i].files[i + 3] = response.users[i].picture;
+                }
             }
             response = defaultDrop;
             deferred.resolve(drop_shim(response[response.length - 1]))
