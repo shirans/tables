@@ -2,6 +2,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="78184266687-jl0emgs5mqnlo0ivo5trn0q93bmq2els.apps.googleusercontent.com">
 </head>
 <body>
 <div class="block-item block-item-featured main" ng-class="{revealed: featured}">
@@ -13,17 +15,11 @@
         </div>
         <div class="bottom-hero">
             <div class="audio-player" audio-player="" audio-player-uri="featured.single_uri"></div>
-            <div class="block-item-text"><h2>{{ featured.name }}</h2>
+            <div class="block-item-text"><h2 id="htitle">{{ featured.name }}</h2>
                 <h3><strong>{{ featured.album }}</strong></h3>
                 <p>{{ featured.description }}</p>
-                <div class="block-item-countdown" timer="" end-time="featured.reveal_date" autostart="false"
-                     ng-show="!featured.dropped"><h4 class="countdown-title">{{featured.dropped_at}}</h4></div>
-                <div class="block-item-countdown" timer="" end-time="featured.reveal_date" autostart="false"
-                     ng-show="featured.dropped"><h4>Now Available! listen on <span class="logo"><a target="_blank"
-                                                                                                   ng-href="{{featured.endpoint}}"> <img
-                        src="./main_files/spotify-logo.c426719b.png" width="85px"> </a></span></h4></div>
+                <div id="my-signin2"></div>
             </div>
-            <div class="block-item-controls"><a ng-href="#/drop/{{ featured.id }}" class="btn-drop">Register!</a></div>
         </div>
     </div>
     <div class="featured-media">
@@ -50,5 +46,62 @@
          is-first="$first" packery-item="" ng-repeat="item in items track by $index"
          ng-class="{&#39;block-item-large&#39;: $first &amp;&amp; item.media_type == &#39;video&#39;}"></div>
 </div-->
+<form action="/login2" method="post" id="loginForm">
+    <input type="hidden" id="token" name="token"/>
+</form>
+
+<script>
+    function onSuccess(googleUser) {
+
+        $.post({
+            type:"POST",
+            url:"/login2",
+            data:"token=" + googleUser.getAuthResponse().id_token,
+            success:function(res)
+            {
+                if (!res.loginSuccess){
+                    return;
+                }
+
+                var profile = googleUser.getBasicProfile();
+
+                $("#htitle").html("Welcome " + profile.getName());
+
+//                googleUser.getBasicProfile();
+//                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+//                console.log('Name: ' + profile.getName());
+//                console.log('Image URL: ' + profile.getImageUrl());
+//                console.log('Email: ' + profile.getEmail());
+
+                $("#my-signin2").hide();
+            },
+            done:function(res){ alert("done: " + res.loginSuccess);},
+            fail:function(res){ alert("failure: " + res.loginSuccess);}
+        });
+
+
+        //googleUser.getBasicProfile().
+//        console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+//        console.log(googleUser.getAuthResponse().id_token);
+//        document.getElementById("token").value =  googleUser.getAuthResponse().id_token;
+//        document.getElementById("loginForm").submit();
+    }
+    function onFailure(error) {
+        console.log(error);
+    }
+    function renderButton() {
+        gapi.signin2.render('my-signin2', {
+            'scope': 'profile email',
+            'width': 240,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': onSuccess,
+            'onfailure': onFailure
+        });
+    }
+</script>
+
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </body>
 </html>
