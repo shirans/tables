@@ -16,3 +16,6 @@ hs_err_pid*
 #idea
 .idea/*
 tables.iml
+
+#target
+.target/*
