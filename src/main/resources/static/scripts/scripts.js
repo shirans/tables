@@ -175,9 +175,11 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
                 try{
                     for (var i = 0; i < response.users.length; i++){
                         result[0].content[i].description = response.users[i].name;
+                        result[0].content[i].title = response.users[i].name;
                         result[0].content[i].files[i + 3] = response.users[i].picture;
                         result[0].content[i].mail = response.users[i].mail;
                         result[0].content[i].appointmentId = response.id;
+                        result[0].content[i].score = response.users[i].score;
                     }
                 }
                 catch (e){

@@ -60,13 +60,19 @@ public class AppointmentController {
 
     private Appointment getMockAppointment(){
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("Person 1", "1", "person1@gmail.com"));
-        users.add(new User("Person 2", "2", "person2@gmail.com"));
-        users.add(new User("Person 3", "3", "person3@gmail.com"));
-        users.add(new User("Person 4", "4", "person4@gmail.com"));
+        users.add(createMockUser(1));
+        users.add(createMockUser(2));
+        users.add(createMockUser(3));
+        users.add(createMockUser(4));
 
         Appointment mock = new Appointment(1, "Here", LocalDateTime.now(), users);
         return mock;
+    }
+
+    private User createMockUser(Integer number){
+        User newUser = new User("Person " + number, number.toString(), "person" + number + "@gmail.com");
+        newUser.setScore((double) (number + 10));
+        return newUser;
     }
 
     private Appointment getFirstAppointment(){
