@@ -1,0 +1,54 @@
+<!-- saved from url=(0046)http://www.spotify-thedrop.com/views/main.html -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+</head>
+<body>
+<div class="block-item block-item-featured main" ng-class="{revealed: featured}">
+    <div class="block-item-content">
+        <div class="block-item-background image-loader image-loader-scale-up" image-loader="" background-image=""
+             image-loader-src="featured.featured_image"></div>
+        <div class="block-item-header">
+            <div class="hero-header"><img src="./main_files/title.png"></div>
+        </div>
+        <div class="bottom-hero">
+            <div class="audio-player" audio-player="" audio-player-uri="featured.single_uri"></div>
+            <div class="block-item-text"><h2>{{ featured.name }}</h2>
+                <h3><strong>{{ featured.album }}</strong></h3>
+                <p>{{ featured.description }}</p>
+                <div class="block-item-countdown" timer="" end-time="featured.reveal_date" autostart="false"
+                     ng-show="!featured.dropped"><h4 class="countdown-title">{{featured.dropped_at}}</h4></div>
+                <div class="block-item-countdown" timer="" end-time="featured.reveal_date" autostart="false"
+                     ng-show="featured.dropped"><h4>Now Available! listen on <span class="logo"><a target="_blank"
+                                                                                                   ng-href="{{featured.endpoint}}"> <img
+                        src="./main_files/spotify-logo.c426719b.png" width="85px"> </a></span></h4></div>
+            </div>
+            <div class="block-item-controls"><a ng-href="#/drop/{{ featured.id }}" class="btn-drop">Register!</a></div>
+        </div>
+    </div>
+    <div class="featured-media">
+        <div ng-repeat="item in featured.content track by $index | limitTo: 5" class="main-featured-content">
+            <div class="featured-circle"
+                 ng-class="{reveal: isFeatured(item.item_index) &amp;&amp; backgroundLoaded, &#39;first-load&#39;: firstLoad}">
+                <div class="featured-bubble-content vertical-center">
+                    <div class="mask-featured-bubble-content"><h3>{{item.title}}</h3>
+                        <p>{{item.description}}</p> <a class="btn-drop" name="viewDrop" ng-show="!item.locked"
+                                                       ng-href="#/drop/{{ item.drop_id}}?media={{ $index }}">View his rating</a></div>
+                </div>
+                <div class="block-item-background image-loader" image-loader=""
+                     image-loader-src="item.featured_image"></div>
+            </div>
+        </div>
+        <div ng-repeat="item in featured.content | limitTo: 5" class="featured-media-item item-{{ $index }}"
+             media-circle="" ng-style="circleStyle"></div>
+    </div>
+</div>
+<!--div class="block-items" packery="" infinite-scroll="add_random_assets()"
+     infinite-scroll-disabled="(!featured || !ready)" ng-show="featured" infinite-scroll-distance="0.3">
+    <div class="block-item-small"></div>
+    <div class="block-item" ng-hide="item.media_type == &#39;ad&#39;" block-item="" block-item-data="item"
+         is-first="$first" packery-item="" ng-repeat="item in items track by $index"
+         ng-class="{&#39;block-item-large&#39;: $first &amp;&amp; item.media_type == &#39;video&#39;}"></div>
+</div-->
+</body>
+</html>

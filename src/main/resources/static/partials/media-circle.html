@@ -1,0 +1,11 @@
+<div class="featured-media-item-animation-container" ng-class="{locked: (item.locked === true)}">
+  <a class="featured-media-item-circle" ng-click="selectFeature(item.item_index)">
+    <div class="block-item-background image-loader" image-loader image-loader-src="item.featured_image"></div>
+    <div class="featured-media-item-label" ng-style="labelStyle">
+      <div class="media-object" ng-show="item.media_type === 'video'"><img src="/images/icons/Video-white.svg"></div>
+      <div class="media-object" ng-show="item.media_type === 'playlist'"><img src="/images/icons/Playlist-white.svg"></div>
+      <div class="media-object" ng-show="item.media_type === 'gallery'"><img src="/images/icons/Gallery-white.svg"></div>
+      <div class="locked" ng-show="item.locked"><img src="/images/icons/Locked-white.svg"></div>
+    </div>
+  </a>
+</div>
