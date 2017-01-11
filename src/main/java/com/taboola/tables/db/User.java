@@ -4,6 +4,8 @@ package com.taboola.tables.db;
  * @author shiran.s on 1/11/17.
  */
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,44 +24,51 @@ public class User {
     private String name;
     private Double score = NO_SCORE;
     private String tid = NO_TID;
+    private Date creationDate;
+    private Date updateDate;
+    private long nextAppointmentId;
 
+    protected User() {
+        Date now = new Date();
+        this.creationDate = now;
+        this.updateDate = now;
+    }
 
     public User(String name,String gmailId) {
+        this();
         this.name = name;
         this.gmailId = gmailId;
     }
 
 
-
-    public String getTid() {
-        return tid;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    /* set */
     public void setName(String name) {
         this.name = name;
+        this.updateDate = new Date();
     }
 
     public void setTid(String tid) {
         this.tid = tid;
+        this.updateDate = new Date();
     }
+    public void setScore(Double score) {
+        this.score = score;
+        this.updateDate = new Date();
+    }
+
 
     public void setNextAppointmentId(long nextAppointmentId) {
         this.nextAppointmentId = nextAppointmentId;
+        this.updateDate = new Date();
     }
-
 
     public long getNextAppointmentId() {
         return nextAppointmentId;
     }
 
-    private long nextAppointmentId;
-
-    protected User() {}
-
-
+    public String getTid() {
+        return tid;
+    }
 
     public String getGmailId() {
         return gmailId;
@@ -69,16 +78,9 @@ public class User {
         return id;
     }
 
-
-
     public Double getScore() {
         return score;
     }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
 
     public String getName() {
         return name;
@@ -87,6 +89,7 @@ public class User {
     public void setGmailId(String gmailId) {
         this.gmailId = gmailId;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -100,7 +103,9 @@ public class User {
         if (gmailId != null ? !gmailId.equals(user.gmailId) : user.gmailId != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (score != null ? !score.equals(user.score) : user.score != null) return false;
-        return tid != null ? tid.equals(user.tid) : user.tid == null;
+        if (tid != null ? !tid.equals(user.tid) : user.tid != null) return false;
+        if (creationDate != null ? !creationDate.equals(user.creationDate) : user.creationDate != null) return false;
+        return updateDate != null ? updateDate.equals(user.updateDate) : user.updateDate == null;
 
     }
 
@@ -111,6 +116,8 @@ public class User {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (score != null ? score.hashCode() : 0);
         result = 31 * result + (tid != null ? tid.hashCode() : 0);
+        result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
+        result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
         result = 31 * result + (int) (nextAppointmentId ^ (nextAppointmentId >>> 32));
         return result;
     }
@@ -123,6 +130,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", score=" + score +
                 ", tid='" + tid + '\'' +
+                ", creationDate=" + creationDate +
+                ", updateDate=" + updateDate +
                 ", nextAppointmentId=" + nextAppointmentId +
                 '}';
     }
