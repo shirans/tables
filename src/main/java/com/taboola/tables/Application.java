@@ -73,9 +73,9 @@ public class Application {
     }
 
     private void setUpBasicUsers() {
-        repository.save(new User("Boaz", "gid1"));
-        repository.save(new User("Eyal", "gid2"));
-        repository.save(new User("Rami", "gid3"));
-        repository.save(new User("Shiran", "gid4"));
+        repository.save(new User("Boaz", "gid1", "1@gmail.com"));
+        repository.save(new User("Eyal", "gid2", "2@gmail.com"));
+        repository.save(new User("Rami", "gid3", "3@gmail.com"));
+        repository.save(new User("Shiran", "gid4", "4@gmail.com"));
     }
 }

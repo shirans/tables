@@ -2,15 +2,15 @@ package com.taboola.tables.controllers;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.taboola.tables.db.TaboolaIdentity;
+import com.taboola.tables.db.TaboolaIdentityRepo;
 import com.taboola.tables.db.User;
 import com.taboola.tables.db.UserRepo;
 import com.taboola.tables.entities.LoginResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -27,8 +27,11 @@ public class LoginController {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    TaboolaIdentityRepo taboolaIdentityRepo;
+
     @RequestMapping(value = "/login2", method = RequestMethod.POST)
-    public LoginResult login(@RequestParam(name = "token") String token) throws GeneralSecurityException, IOException {
+    public LoginResult login(@RequestParam(name = "token") String token, @CookieValue(name = "t_gid", required = false) String taboolaId) throws GeneralSecurityException, IOException {
         LoginResult loginResult = new LoginResult();
         loginResult.setLoginSuccess(false);
         try
@@ -52,7 +55,8 @@ public class LoginController {
 
                 // Use or store profile information
                 // ...
-                registerUserIfNeeded(payload);
+                User user = registerUserIfNeeded(payload);
+                registerTaboolaIdIfNeeded(user, taboolaId);
 
                 loginResult.setLoginSuccess(true);
 
@@ -67,12 +71,23 @@ public class LoginController {
         return loginResult;
     }
 
-    private void registerUserIfNeeded(GoogleIdToken.Payload payload) {
+    private User registerUserIfNeeded(GoogleIdToken.Payload payload) {
         User user = userRepo.findByGmailId(payload.getEmail());
         if (user == null) {
             Object picture = payload.get("picture");
             User newUser = new User((String) payload.get("name"), payload.getEmail(),(String) picture);
-            userRepo.save(newUser);
+            user = userRepo.save(newUser);
+        }
+
+        return user;
+    }
+
+    private void registerTaboolaIdIfNeeded(User user, String taboolaId) {
+        if (!StringUtils.isEmpty(taboolaId)) {
+            if (user.getTaboolaIdentities() != null && !user.getTaboolaIdentities().stream().anyMatch(ti -> taboolaId.equals(ti.getTaboolaId()))) {
+                TaboolaIdentity taboolaIdentity = new TaboolaIdentity(user.getId(), taboolaId);
+                taboolaIdentityRepo.save(taboolaIdentity);
+            }
         }
     }
 }

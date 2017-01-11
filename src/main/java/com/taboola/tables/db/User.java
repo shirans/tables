@@ -7,11 +7,7 @@ package com.taboola.tables.db;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,39 +22,43 @@ public class User {
     @Id
     private Long id;
     private String gmailId;
+    private String mail;
     private String name;
     private Double score = NO_SCORE;
     private String tid = NO_TID;
     private Date creationDate;
     private Date updateDate;
     private long nextAppointmentId;
+    private String picture;
+
     @ManyToMany(mappedBy = "users")
     @JsonIgnore
     private List<Appointment> appointments;
 
-    public String getPicture() {
-        return picture;
-    }
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name="user_id", referencedColumnName="id")
+    private List<TaboolaIdentity> taboolaIdentities;
 
-    private String picture;
-
-    protected User() {
+    public User() {
         Date now = new Date();
         this.creationDate = now;
         this.updateDate = now;
     }
 
-    public User(String name, String gmailId) {
+    public User(String name, String gmailId, String mail) {
         this();
         this.name = name;
         this.gmailId = gmailId;
+        this.mail = mail;
         this.picture = DEFAULT_PIC;
     }
 
-    public User(String name, String email, String picture) {
+    public User(String name, String gmailId, String mail, String picture) {
         this();
         this.name = name;
-        this.gmailId = email;
+        this.gmailId = gmailId;
+        this.mail = mail;
         this.picture = picture;
     }
 
@@ -69,6 +69,18 @@ public class User {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public String getPicture(){
+        return this.picture;
+    }
+
+    public String getMail(){
+        return this.mail;
+    }
+
+    public void setMail(String mail){
+        this.mail = mail;
     }
 
     public Date getCreationDate() {
@@ -136,12 +148,17 @@ public class User {
         this.appointments = appointments;
     }
 
+    public List<TaboolaIdentity> getTaboolaIdentities() {
+        return taboolaIdentities;
+    }
+
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", gmailId='" + gmailId + '\'' +
+                ", mail='" + mail + '\'' +
                 ", name='" + name + '\'' +
                 ", score=" + score +
                 ", tid='" + tid + '\'' +
@@ -165,6 +182,7 @@ public class User {
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (score != null ? !score.equals(user.score) : user.score != null) return false;
         if (tid != null ? !tid.equals(user.tid) : user.tid != null) return false;
+        if (mail != null ? !mail.equals(user.mail) : user.mail != null) return false;
         if (creationDate != null ? !creationDate.equals(user.creationDate) : user.creationDate != null) return false;
         if (updateDate != null ? !updateDate.equals(user.updateDate) : user.updateDate != null) return false;
         if (appointments != null ? !appointments.equals(user.appointments) : user.appointments != null) return false;
@@ -176,6 +194,7 @@ public class User {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (gmailId != null ? gmailId.hashCode() : 0);
+        result = 31 * result + (mail != null ? mail.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (score != null ? score.hashCode() : 0);
         result = 31 * result + (tid != null ? tid.hashCode() : 0);

@@ -1,13 +1,13 @@
 package com.taboola.tables.controllers;
 
+import com.taboola.tables.entities.PartialUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.taboola.tables.db.User;
 import com.taboola.tables.db.UserRepo;
+
+import java.util.ArrayList;
 
 /**
  * Created by eyal.s on 11/01/2017.
@@ -26,5 +26,11 @@ public class UserController {
         } else {
             return null;
         }
+    }
+
+
+    @RequestMapping(value = "/bulkInsert", method = RequestMethod.POST)
+    public String bulkInsert(@RequestBody ArrayList<User> users){
+        return "OK";
     }
 }

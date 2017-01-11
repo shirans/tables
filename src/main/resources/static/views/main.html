@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="78184266687-jl0emgs5mqnlo0ivo5trn0q93bmq2els.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="78184266687-p3205d9dedscipo29ghj0953fdvfddlc.apps.googleusercontent.com">
 </head>
 <body>
 <div class="block-item block-item-featured main" ng-class="{revealed: featured}">
@@ -15,9 +15,9 @@
         </div>
         <div class="bottom-hero">
             <div class="audio-player" audio-player="" audio-player-uri="featured.single_uri"></div>
-            <div class="block-item-text"><h2 id="htitle">{{ featured.name }}</h2>
-                <h3><strong>{{ featured.album }}</strong></h3>
-                <p>{{ featured.description }}</p>
+            <div class="block-item-text"><h2 id="htitle">Welcome to Taboola Tables!</h2>
+                <h3><strong>It's fun AND delicious!</strong></h3>
+                <p>Eat with other people and get rated for your awesomeness</p>
                 <div id="my-signin2"></div>
             </div>
         </div>
@@ -53,6 +53,17 @@
 <script>
     function onSuccess(googleUser) {
 
+        var userId = getUserIfAlreadyLoggedIn();
+
+        console.log("google profile: %o", googleUser.getBasicProfile());
+        //console.log("google auth: %o", googleUser.getBasicProfile().getAuthResponse());
+
+        if (userId != null){
+            $("#my-signin2").hide();
+            $("#htitle").html("Welcome " + googleUser.getBasicProfile().getName());
+            return;
+        }
+
         $.post({
             type:"POST",
             url:"/login2",
@@ -64,28 +75,22 @@
                 }
 
                 var profile = googleUser.getBasicProfile();
-
-                $("#htitle").html("Welcome " + profile.getName());
-
-//                googleUser.getBasicProfile();
-//                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-//                console.log('Name: ' + profile.getName());
-//                console.log('Image URL: ' + profile.getImageUrl());
-//                console.log('Email: ' + profile.getEmail());
-
-                $("#my-signin2").hide();
+                document.location.href = "/home.html?userId=" + profile.getId();
             },
             done:function(res){ alert("done: " + res.loginSuccess);},
             fail:function(res){ alert("failure: " + res.loginSuccess);}
         });
-
-
-        //googleUser.getBasicProfile().
-//        console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-//        console.log(googleUser.getAuthResponse().id_token);
-//        document.getElementById("token").value =  googleUser.getAuthResponse().id_token;
-//        document.getElementById("loginForm").submit();
     }
+
+    function getUserIfAlreadyLoggedIn(){
+        var prefixPos = location.search.indexOf("userId=");
+        if (prefixPos == -1) {
+            return null;
+        }
+
+        return location.search.substr(prefixPos + "userId=".length);
+    }
+
     function onFailure(error) {
         console.log(error);
     }

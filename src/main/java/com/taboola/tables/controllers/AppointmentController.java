@@ -1,5 +1,7 @@
 package com.taboola.tables.controllers;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,16 +37,30 @@ public class AppointmentController {
             logger.error("Invalid gmail "+gmail);
             return null;
         }
-        final User user = userRepo.findByGmailId(gmail);
 
-        final List<Appointment> appointments = user.getAppointments();
-        appointments.sort((o1, o2) -> o1.getAppointmentDate().compareTo(o2.getAppointmentDate()));
-        final Appointment nextAppointment = appointments.get(0);
+        try{
+            final User user = userRepo.findByGmailId(gmail);
 
-        logger.info("appointment list is " + Arrays.toString(appointments.toArray()));
-        logger.info("next appointment is " + nextAppointment.toString());
+            final List<Appointment> appointments = user.getAppointments();
+            appointments.sort((o1, o2) -> o1.getAppointmentDate().compareTo(o2.getAppointmentDate()));
+            final Appointment nextAppointment = appointments.get(0);
 
+            logger.info("appointment list is " + Arrays.toString(appointments.toArray()));
+            logger.info("next appointment is " + nextAppointment.toString());
 
-        return nextAppointment;
+            return nextAppointment;
+        }
+        catch (Throwable e){
+            e.printStackTrace();
+
+            ArrayList<User> users = new ArrayList<>();
+            users.add(new User("Person 1", "1", "person1@gmail.com"));
+            users.add(new User("Person 2", "2", "person2@gmail.com"));
+            users.add(new User("Person 3", "3", "person3@gmail.com"));
+            users.add(new User("Person 4", "4", "person4@gmail.com"));
+
+            Appointment mock = new Appointment("Here", LocalDateTime.now(), users);
+            return mock;
+        }
     }
 }

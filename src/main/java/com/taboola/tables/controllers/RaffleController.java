@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Lists;
 import com.taboola.tables.db.Appointment;
 import com.taboola.tables.db.AppointmentRepo;
 import com.taboola.tables.db.User;
@@ -41,16 +42,15 @@ public class RaffleController {
     private AppointmentRepo appoitnemntRepo;
 
     @RequestMapping("/raffle")
-    public HttpStatus getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates, HttpServletResponse response) {
+    public HttpStatus getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates) {
         if (numOfParticipates < 2 || numOfParticipates > 8) {
             logger.info("Num of participates is " +numOfParticipates+" shoud be between 3 to 8, setting to 4");
             numOfParticipates = 4;
         }
         logger.info("Num of participates is " +numOfParticipates);
 
-        final List<User> participatesList = new ArrayList<>();//TODO take from DB
         final Iterable<User> allUsers = userRepo.findAll();
-        allUsers.forEach(u -> participatesList.add(u));
+        final ArrayList<User> participatesList = Lists.newArrayList(allUsers);
         Collections.shuffle(participatesList);
 
         int numOfGroups = participatesList.size() / numOfParticipates;
