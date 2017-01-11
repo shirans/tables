@@ -1,5 +1,6 @@
 package com.taboola.tables.db;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
-    private Date appointmentDate;
+    private LocalDateTime appointmentDate;
     private String location;
     private Date createTime = new Date();
 
@@ -32,7 +33,10 @@ public class Appointment {
     private List<User> users;
 
 
-    public Appointment(String location, Date appointmentDate, List<User> userList) {
+    public Appointment() {
+    }
+
+    public Appointment(String location, LocalDateTime appointmentDate, List<User> userList) {
         this.location = location;
         this.appointmentDate = appointmentDate;
         this.users = userList;
@@ -43,7 +47,7 @@ public class Appointment {
     }
 
 
-    public void setAppointmentDate(Date appointmentDate) {
+    public void setAppointmentDate(LocalDateTime appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 
@@ -59,7 +63,7 @@ public class Appointment {
         return id;
     }
 
-    public Date getAppointmentDate() {
+    public LocalDateTime getAppointmentDate() {
         return appointmentDate;
     }
 
