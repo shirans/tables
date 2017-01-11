@@ -42,7 +42,7 @@ public class RaffleController {
     private AppointmentRepo appoitnemntRepo;
 
     @RequestMapping("/raffle")
-    public HttpStatus getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates, HttpServletResponse response) {
+    public HttpStatus getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates) {
         if (numOfParticipates < 2 || numOfParticipates > 8) {
             logger.info("Num of participates is " +numOfParticipates+" shoud be between 3 to 8, setting to 4");
             numOfParticipates = 4;
