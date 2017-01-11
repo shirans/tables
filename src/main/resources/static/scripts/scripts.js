@@ -169,14 +169,14 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         }
         return $http.get(dataUrl).success(function (response) {
             console.log("result: %o", response);
-            response = defaultDrop;
+            //response = defaultDrop;
             if (response != null && response.users != null){
                 var result = defaultDrop;
-
                 try{
                     for (var i = 0; i < response.users.length; i++){
                         result[0].content[i].description = response.users[i].name;
                         result[0].content[i].files[i + 3] = response.users[i].picture;
+                        result[0].content[i].mail = response.users[i].mail;
                     }
                 }
                 catch (e){
