@@ -18,6 +18,7 @@
     <meta property="og:description"
           content="Spotify - The Drop: Where artists release exclusive content leading up to their album drop.">
     <meta property="og:site_name" content="Spotify - The Drop">
+</head>
 <body ng-app="dropApp" ng-class="{expanded: $root.expanded}">
 <div class="site-content-container">
     <header ng-controller="HeaderCtrl" ng-include="'partials/header.html'"></header>
@@ -41,7 +42,8 @@
             </ul>
         </div>
     </nav>
-</div> <!--footer ng-include="'partials/footer.html'"></footer--> <!--
+</div>
+<!--footer ng-include="'partials/footer.html'"></footer--> <!--
     <main ng-class="$root.animationClass">
 
       <div class="main-content">
@@ -70,8 +72,12 @@
      </nav>
  -->
 
-<div><h1>Featured!</h1></div>
-<div id="chartContainer" style="height: 300px; width: 300px;"></div>
+<section id="section02" class="demo">
+    <div style="margin:50px; display:flex; align-items:center;justify-content:center;flex-direction:column;">
+        <h1>Featured!</h1>
+        <div id="chartContainer" style="height: 300px; width: 700px;"></div>
+    </div>
+</section>
 
 
 <script type="text/javascript" src="/scripts/canvasjs.min.js"></script>
@@ -85,19 +91,15 @@
 
 <script>
 
-//    var dps = [
-//        {label: "Person1", y: 10, color: "#FF2500"},
-//        {label: "Person2", y: 20, color: "#FF6000"},
-//        {label: "Person3", y: 5, color: "#6B8E23"},
-//        {label: "Person4", y: 15, color: "#FF6000"},
-//        {label: "Person5", y: 25, color: "#6B8E23"}
-//    ];
+    function doScroll(itemId){
+        $('html, body').animate({ scrollTop: $("#" + itemId).offset().top}, 500, 'linear');
+    }
 
     var topUsers = [];
 
     var chart = new CanvasJS.Chart("chartContainer",{
         title: {
-            text: "Best Rated Eaters!"
+            text: "Best Rated Taboolars (to eat with, not in general...)!"
         },
         axisY: {
             suffix: " C"
