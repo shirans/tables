@@ -75,4 +75,15 @@ public class Appointment {
     public Date getCreateTime() {
         return createTime;
     }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", appointmentDate=" + appointmentDate +
+                ", location='" + location + '\'' +
+                ", createTime=" + createTime +
+                ", users=" + users +
+                '}';
+    }
 }

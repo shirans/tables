@@ -37,12 +37,12 @@ public class AppointmentController {
         }
         final User user = userRepo.findByGmailId(gmail);
 
-        final List<com.taboola.tables.db.Appointment> appointments = user.getAppointments();
+        final List<Appointment> appointments = user.getAppointments();
         appointments.sort((o1, o2) -> o1.getAppointmentDate().compareTo(o2.getAppointmentDate()));
         final Appointment nextAppointment = appointments.get(0);
 
         logger.info("appointment list is " + Arrays.toString(appointments.toArray()));
-        logger.info(nextAppointment.toString());
+        logger.info("next appointment is " + nextAppointment.toString());
 
 
         return nextAppointment;

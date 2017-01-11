@@ -1,5 +1,6 @@
 package com.taboola.tables.controllers;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,9 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +41,7 @@ public class RaffleController {
     private AppointmentRepo appoitnemntRepo;
 
     @RequestMapping("/raffle")
-    public Iterable<Appointment> getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates) {
+    public HttpStatus getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates, HttpServletResponse response) {
         if (numOfParticipates < 2 || numOfParticipates > 8) {
             logger.info("Num of participates is " +numOfParticipates+" shoud be between 3 to 8, setting to 4");
             numOfParticipates = 4;
@@ -65,10 +69,9 @@ public class RaffleController {
             final Appointment appointment = new Appointment("At Taboola Kitchen", nextTablesDate, userList);
             appoitnemntRepo.save(appointment);
         }
-
-        final Iterable<Appointment> all = appoitnemntRepo.findAll();
-
-        return all;
+        final Iterable<Appointment> appointments = appoitnemntRepo.findAll();
+        return HttpStatus.OK;
+//        return appointments;
     }
 
     private LocalDateTime getNextTablesDate() {
