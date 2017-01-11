@@ -53,6 +53,13 @@
 <script>
     function onSuccess(googleUser) {
 
+        var userId = getUserIfAlreadyLoggedIn();
+
+        if (userId != null){
+            $("#my-signin2").hide();
+            return;
+        }
+
         $.post({
             type:"POST",
             url:"/login2",
@@ -65,27 +72,30 @@
 
                 var profile = googleUser.getBasicProfile();
 
-                $("#htitle").html("Welcome " + profile.getName());
+//                $("#htitle").html("Welcome " + profile.getName());
 
 //                googleUser.getBasicProfile();
 //                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
 //                console.log('Name: ' + profile.getName());
 //                console.log('Image URL: ' + profile.getImageUrl());
 //                console.log('Email: ' + profile.getEmail());
-
-                $("#my-signin2").hide();
+//                $("#my-signin2").hide();
+                document.location.href = "/home.html?userId=" + profile.getId();
             },
             done:function(res){ alert("done: " + res.loginSuccess);},
             fail:function(res){ alert("failure: " + res.loginSuccess);}
         });
-
-
-        //googleUser.getBasicProfile().
-//        console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-//        console.log(googleUser.getAuthResponse().id_token);
-//        document.getElementById("token").value =  googleUser.getAuthResponse().id_token;
-//        document.getElementById("loginForm").submit();
     }
+
+    function getUserIfAlreadyLoggedIn(){
+        var prefixPos = location.search.indexOf("userId=");
+        if (prefixPos == -1) {
+            return null;
+        }
+
+        return location.search.substr(prefixPos + "userId=".length);
+    }
+
     function onFailure(error) {
         console.log(error);
     }
