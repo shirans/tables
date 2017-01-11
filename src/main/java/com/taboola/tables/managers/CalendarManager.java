@@ -47,7 +47,6 @@ public class CalendarManager {
     private static final String INVITATION_LOCATION = "Wherever you want!";
     private static final String INVITATION_COLOR = "Green";
     private static final String OWNER_DISPLAY_NAME = TablesConfig.APPLICATION_NAME;
-    private static final String OWNER_EMAIL = "tables@taboola.com";
 
     /** Global instance of the scopes required by this quickstart.
      *
@@ -59,7 +58,7 @@ public class CalendarManager {
 
 
     @Autowired
-    com.google.api.services.calendar.Calendar tablesCalendar;
+    com.google.api.services.calendar.Calendar calendarService;
 
     /*@Value(value="classpath:resources/client_secret.json")
     Resource clientSecret;*/
@@ -87,10 +86,10 @@ public class CalendarManager {
         event.setAttendees(attendees);
 
         String calendarId = "primary";
-        event.setOrganizer(new Event.Organizer().setDisplayName(OWNER_DISPLAY_NAME).setEmail(OWNER_EMAIL));
-        event.setCreator(new Event.Creator().setDisplayName(OWNER_DISPLAY_NAME).setEmail(OWNER_EMAIL));
+        event.setOrganizer(new Event.Organizer().setDisplayName(OWNER_DISPLAY_NAME).setEmail(TablesConfig.OWNER_EMAIL));
+        event.setCreator(new Event.Creator().setDisplayName(OWNER_DISPLAY_NAME).setEmail(TablesConfig.OWNER_EMAIL));
 
-        event = tablesCalendar.events().insert(calendarId, event).execute();
+        event = calendarService.events().insert(calendarId, event).execute();
     }
 
     /*
