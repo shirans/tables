@@ -1,5 +1,47 @@
-
-<!doctype html> <html class="no-js"> <head> <meta charset="utf-8"> <title></title> <meta name="description" content=""> <meta name="viewport" content="width=device-width"> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel="stylesheet" href="styles/vendor.d5e73916.css"> <link rel="stylesheet" href="styles/main.14219f9b.css"> <base href="/"> <link rel="icon" href="//d2c87l0yth4zbw.cloudfront.net/i/_global/favicon.png"> <!-- Open Graph data --> <meta property="og:title" content="Spotify - The Drop: Where artists release exclusive content leading up to their album drop."> <meta property="og:type" content="website"> <meta property="og:url" content="http://spotify-thedrop.com"> <meta property="og:image" content="http://spotify-thedrop.com/images/facebook-share.jpg"> <meta property="og:description" content="Spotify - The Drop: Where artists release exclusive content leading up to their album drop."> <meta property="og:site_name" content="Spotify - The Drop">  <body ng-app="dropApp" ng-class="{expanded: $root.expanded}"> <div class="site-content-container"> <header ng-controller="HeaderCtrl" ng-include="'partials/header.html'"></header> <main ng-view ng-click="$root.expanded = false" ng-class="$root.view_class"></main> <nav class="site-mobile-navigation" ng-controller="HeaderCtrl"> <a ng-repeat="link in links" ng-href="#{{ link.path }}" ng-class="{current: (path === link.path)}" ng-click="$root.expanded = false"> {{ link.title }} </a> <a ng-click="toggleShare()">SHARE</a> <div id="share-controls"> <ul class="share-items"> <li class="share-item"> <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.spotify-thedrop.com" target="_blank" class="share-button"> <i class="fa fa-facebook share-icon"></i> </a> </li> <li class="share-item"> <a href="https://twitter.com/home?status=Check%20out%20the%20drop" target="_blank" class="share-button"> <i class="fa fa-twitter share-icon"></i> </a> </li> <li class="share-item"> <a href="http://www.tumblr.com/share/link?url=http%3A%2F%2Fspotify-thedrop.com" target="_blank" class="share-button"> <i class="fa fa-link share-icon"></i> </a> </li> </ul> </div> </nav> </div> <!--footer ng-include="'partials/footer.html'"></footer--> <!--
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="styles/vendor.d5e73916.css">
+    <link rel="stylesheet" href="styles/main.14219f9b.css">
+    <base href="/">
+    <link rel="icon" href="//d2c87l0yth4zbw.cloudfront.net/i/_global/favicon.png"> <!-- Open Graph data -->
+    <meta property="og:title"
+          content="Spotify - The Drop: Where artists release exclusive content leading up to their album drop.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://spotify-thedrop.com">
+    <meta property="og:image" content="http://spotify-thedrop.com/images/facebook-share.jpg">
+    <meta property="og:description"
+          content="Spotify - The Drop: Where artists release exclusive content leading up to their album drop.">
+    <meta property="og:site_name" content="Spotify - The Drop">
+<body ng-app="dropApp" ng-class="{expanded: $root.expanded}">
+<div class="site-content-container">
+    <header ng-controller="HeaderCtrl" ng-include="'partials/header.html'"></header>
+    <main ng-view ng-click="$root.expanded = false" ng-class="$root.view_class"></main>
+    <nav class="site-mobile-navigation" ng-controller="HeaderCtrl"><a ng-repeat="link in links"
+                                                                      ng-href="#{{ link.path }}"
+                                                                      ng-class="{current: (path === link.path)}"
+                                                                      ng-click="$root.expanded = false"> {{ link.title
+        }} </a> <a ng-click="toggleShare()">SHARE</a>
+        <div id="share-controls">
+            <ul class="share-items">
+                <li class="share-item"><a
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://www.spotify-thedrop.com"
+                        target="_blank" class="share-button"> <i class="fa fa-facebook share-icon"></i> </a></li>
+                <li class="share-item"><a href="https://twitter.com/home?status=Check%20out%20the%20drop"
+                                          target="_blank" class="share-button"> <i class="fa fa-twitter share-icon"></i>
+                </a></li>
+                <li class="share-item"><a href="http://www.tumblr.com/share/link?url=http%3A%2F%2Fspotify-thedrop.com"
+                                          target="_blank" class="share-button"> <i class="fa fa-link share-icon"></i>
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+</div> <!--footer ng-include="'partials/footer.html'"></footer--> <!--
     <main ng-class="$root.animationClass">
 
       <div class="main-content">
@@ -26,4 +68,10 @@
             {{ link.title }}
          </a>
      </nav>
- --> <script src="scripts/vendor.js"></script> <script src="scripts/vendor/isotope.min.333ccf0e.js"></script> <script src="scripts/vendor/ng-infinite-scroll.min.4042e865.js"></script> <script src="scripts/vendor/tweenmax.min.7c9e1e5f.js"></script> <script src="scripts/vendor/jquery.fancybox.pack.cc9e759f.js"></script> <script src="scripts/scripts.js"></script>  
+ -->
+<script src="scripts/vendor.js"></script>
+<script src="scripts/vendor/isotope.min.333ccf0e.js"></script>
+<script src="scripts/vendor/ng-infinite-scroll.min.4042e865.js"></script>
+<script src="scripts/vendor/tweenmax.min.7c9e1e5f.js"></script>
+<script src="scripts/vendor/jquery.fancybox.pack.cc9e759f.js"></script>
+<script src="scripts/scripts.js"></script>
