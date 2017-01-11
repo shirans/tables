@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Lists;
 import com.taboola.tables.db.Appointment;
 import com.taboola.tables.db.AppointmentRepo;
 import com.taboola.tables.db.User;
@@ -48,9 +49,8 @@ public class RaffleController {
         }
         logger.info("Num of participates is " +numOfParticipates);
 
-        final List<User> participatesList = new ArrayList<>();//TODO take from DB
         final Iterable<User> allUsers = userRepo.findAll();
-        allUsers.forEach(u -> participatesList.add(u));
+        final ArrayList<User> participatesList = Lists.newArrayList(allUsers);
         Collections.shuffle(participatesList);
 
         int numOfGroups = participatesList.size() / numOfParticipates;
