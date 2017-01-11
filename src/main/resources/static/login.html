@@ -15,8 +15,8 @@
     <img src="images/logo-blue.png" />
     <div id="my-signin2"></div>
 </div>
-<form action="/login" method="post" id="loginForm">
-    <input type="hidden" id="token" />
+<form action="/login2" method="post" id="loginForm">
+    <input type="hidden" id="token" name="token"/>
 </form>
 
 <script>
@@ -24,7 +24,7 @@
         console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
         console.log(googleUser.getAuthResponse().id_token);
         document.getElementById("token").value =  googleUser.getAuthResponse().id_token;
-        //document.getElementById("loginForm").submit();
+        document.getElementById("loginForm").submit();
     }
     function onFailure(error) {
         console.log(error);

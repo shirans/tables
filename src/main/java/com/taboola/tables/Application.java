@@ -62,9 +62,9 @@ public class Application {
 
         // fetch customers by last name
         log.info("Customer found with findByGmailId('gid3'):");
-        for (User bauer : repository.findByGmailId("gid3")) {
+        /*for (User bauer : repository.findByGmailId("gid3")) {
             log.info(bauer.toString());
-        }
+        }*/
 
         log.info("Customer found with findById(4):");
         for (User bauer : repository.findById(3L)) {
