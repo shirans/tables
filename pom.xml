@@ -6,6 +6,13 @@
     <groupId>com.taboola</groupId>
     <artifactId>tables</artifactId>
     <version>1.0</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>RELEASE</version>
+    </parent>
+
     <build>
         <plugins>
             <plugin>
@@ -30,31 +37,29 @@
 
     <properties>
         <dropwizard.version>1.0.5</dropwizard.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>RELEASE</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
+            <artifactId>com.taboola.tables.json-path</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
