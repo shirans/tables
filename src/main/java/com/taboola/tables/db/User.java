@@ -65,6 +65,10 @@ public class User {
         this.picture = picture;
     }
 
+    public String getPicture(){
+        return this.picture;
+    }
+
     private String picture;
 
     public Date getCreationDate() {
