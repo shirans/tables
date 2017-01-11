@@ -5,11 +5,13 @@ package com.taboola.tables.db;
  */
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -27,6 +29,8 @@ public class User {
     private Date creationDate;
     private Date updateDate;
     private long nextAppointmentId;
+    @ManyToMany(mappedBy="users")
+    private List<Appointment> appointments;
 
     protected User() {
         Date now = new Date();
@@ -90,6 +94,13 @@ public class User {
         this.gmailId = gmailId;
     }
 
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 
     @Override
     public boolean equals(Object o) {

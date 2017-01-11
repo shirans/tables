@@ -2,20 +2,22 @@ package com.taboola.tables.json;
 
 import java.util.List;
 
+import com.taboola.tables.db.User;
+
 /**
  * Created by boaz.y on 11/01/2017.
  */
 public class Appointment {
 
     private final long id;
-    private final String userName;
-    private final List<String> participates;
+    private final User user;
+    private final List<User> participates;
     private final String location;
     private final long appointmentTimestamp;
 
-    public Appointment(long id, String userName, List<String> participates, String location, long appointmentTimestamp) {
+    public Appointment(long id, User user, List<User> participates, String location, long appointmentTimestamp) {
         this.id = id;
-        this.userName = userName;
+        this.user = user;
         this.participates = participates;
         this.location = location;
         this.appointmentTimestamp = appointmentTimestamp;
@@ -25,8 +27,8 @@ public class Appointment {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    public User getUser() {
+        return user;
     }
 
     public String getLocation() {
@@ -37,7 +39,7 @@ public class Appointment {
         return appointmentTimestamp;
     }
 
-    public List<String> getParticipates() {
+    public List<User> getParticipates() {
         return participates;
     }
 }
