@@ -65,7 +65,7 @@ public class AppointmentController {
         users.add(new User("Person 3", "3", "person3@gmail.com"));
         users.add(new User("Person 4", "4", "person4@gmail.com"));
 
-        Appointment mock = new Appointment("Here", LocalDateTime.now(), users);
+        Appointment mock = new Appointment(1, "Here", LocalDateTime.now(), users);
         return mock;
     }
 

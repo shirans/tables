@@ -3,6 +3,7 @@ package com.taboola.tables.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,15 +19,15 @@ public class AddUserScore {
     @Autowired
     private UserRepo userRepo;
 
-    @RequestMapping("/add-user-score")
-    public HttpStatus addScore(@RequestParam(value="GmailId") String gmail, @RequestParam(value="score") double score) {
-        final User byGmailId = userRepo.findByGmailId(gmail);
-        if (byGmailId == null) {
+    @RequestMapping(value = "/add-user-score", method = RequestMethod.GET)
+    public HttpStatus addScore(@RequestParam(value="mail") String mail, @RequestParam(value="appointmentId") int appointmentId) {
+        final User user = userRepo.findByMail(mail);
+        if (user == null) {
             return HttpStatus.BAD_REQUEST;
         }
-        double newScore = score + byGmailId.getScore();
-        byGmailId.setScore(newScore);
-        userRepo.save(byGmailId);
+        double newScore = user.getScore() + 1;
+        user.setScore(newScore);
+        userRepo.save(user);
         return HttpStatus.OK;
     }
 }

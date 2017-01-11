@@ -28,7 +28,7 @@
                  ng-class="{reveal: isFeatured(item.item_index) &amp;&amp; backgroundLoaded, &#39;first-load&#39;: firstLoad}">
                 <div class="featured-bubble-content vertical-center">
                     <div class="mask-featured-bubble-content"><h3>{{item.title}}</h3>
-                        <p>{{item.description}}</p> <a class="btn-drop" name="viewDrop" href=""><input type="hidden" value="{{item.mail}}"/> <img itemmail="{{item.mail}}" id="{{item.id}}" onclick="onLikeClick(this, this.id);" src="http://www.freeiconspng.com/uploads/hand-like-thumb-icon--1.png" style="width:20px" /></a></div>
+                        <p>{{item.description}}</p> <a class="btn-drop" name="viewDrop" href=""><img itemmail="{{item.mail}}" appointmentid="{{item.appointmentId}}" onclick="onLikeClick(this, this.id);" src="http://www.freeiconspng.com/uploads/hand-like-thumb-icon--1.png" style="width:20px" /></a></div>
                 </div>
                 <!--ng-show="!item.locked"-->
                 <div class="block-item-background image-loader" image-loader=""
@@ -54,7 +54,13 @@
 
     function onLikeClick(elm, elementId){
         console.log("elm: %o", elm);
-        alert($(elm).attr("itemmail"));
+        var userMail = $(elm).attr("itemmail");
+        var appointmentId = $(elm).attr("appointmentid");
+
+        $.get("/add-user-score?mail=" + userMail + "&appointmentId=" + appointmentId, function (data){
+            alert("Thanks for rating!");
+            $(elm).prop('onclick',null).off('click');
+        });
     }
 
     function onSuccess(googleUser) {
