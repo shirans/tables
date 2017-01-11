@@ -169,17 +169,27 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         }
         return $http.get(dataUrl).success(function (response) {
             console.log("result: %o", response);
+            response = defaultDrop;
             if (response != null && response.users != null){
                 var result = defaultDrop;
 
-                for (var i = 0; i < response.users.length; i++){
-                    result[0].content[i].description = response.users[i].name;
-                    result[0].content[i].files[i + 3] = response.users[i].picture;
+                try{
+                    for (var i = 0; i < response.users.length; i++){
+                        result[0].content[i].description = response.users[i].name;
+                        result[0].content[i].files[i + 3] = response.users[i].picture;
+                    }
                 }
-
-                console.log("drop: %o", result);
+                catch (e){
+                    console.log("got an exception: " + e);
+                    result = defaultDrop;
+                }
+                console.log("before swipe: %o", result);
+                response = result;
+            }else{
+                response = defaultDrop;
             }
-            response = result;
+
+            console.log("result: %o", response);
             deferred.resolve(drop_shim(response[response.length - 1]))
         }), deferred.promise
     }, this.get_cards = function () {
