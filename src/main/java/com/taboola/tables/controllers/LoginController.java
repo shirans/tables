@@ -7,6 +7,8 @@ import com.taboola.tables.db.TaboolaIdentityRepo;
 import com.taboola.tables.db.User;
 import com.taboola.tables.db.UserRepo;
 import com.taboola.tables.entities.LoginResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -20,6 +22,9 @@ import java.security.GeneralSecurityException;
  */
 @RestController
 public class LoginController {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
 
     @Autowired
     GoogleIdTokenVerifier googleTokenVerifier;
@@ -88,9 +93,13 @@ public class LoginController {
 
     private void registerTaboolaIdIfNeeded(User user, String taboolaId) {
         if (!StringUtils.isEmpty(taboolaId)) {
-            if (user.getTaboolaIdentities() != null && !user.getTaboolaIdentities().stream().anyMatch(ti -> taboolaId.equals(ti.getTaboolaId()))) {
-                TaboolaIdentity taboolaIdentity = new TaboolaIdentity(user.getId(), taboolaId);
-                taboolaIdentityRepo.save(taboolaIdentity);
+            if (user.getTaboolaIdentities() == null || !user.getTaboolaIdentities().stream().anyMatch(ti -> taboolaId.equals(ti.getTaboolaId()))) {
+                try {
+                    TaboolaIdentity taboolaIdentity = new TaboolaIdentity(user.getId(), taboolaId);
+                    taboolaIdentityRepo.save(taboolaIdentity);
+                } catch (Exception ex) {
+                    logger.error("An error occurred while setting taboola user id for user [{}], cookie [{}]", ex, user, taboolaId);
+                }
             }
         }
     }
