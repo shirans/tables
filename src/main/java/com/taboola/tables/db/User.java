@@ -7,11 +7,7 @@ package com.taboola.tables.db;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,6 +31,11 @@ public class User {
     @ManyToMany(mappedBy = "users")
     @JsonIgnore
     private List<Appointment> appointments;
+
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name="user_id", referencedColumnName="id")
+    private List<TaboolaIdentity> taboolaIdentities;
 
     protected User() {
         Date now = new Date();
@@ -134,6 +135,10 @@ public class User {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public List<TaboolaIdentity> getTaboolaIdentities() {
+        return taboolaIdentities;
     }
 
 
