@@ -12,7 +12,7 @@ public class TablesConfig {
     public GoogleIdTokenVerifier googleTokenVerifier (){
 
         return new GoogleIdTokenVerifier.Builder(new NetHttpTransport.Builder().build(), new JacksonFactory())
-                .setAudience(Collections.singletonList(""))
+                .setAudience(Collections.singletonList("78184266687-jl0emgs5mqnlo0ivo5trn0q93bmq2els.apps.googleusercontent.com"))
                 .build();
     }*/
 
