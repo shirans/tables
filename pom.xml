@@ -28,16 +28,12 @@
         <dropwizard.version>1.0.5</dropwizard.version>
     </properties>
 
-
-    <!-- library dependencies -->
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>1.4.3.RELEASE</version>
         </dependency>
-
 
     </dependencies>
 </project>
