@@ -59,7 +59,7 @@
 
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>com.taboola.tables.json-path</artifactId>
+            <artifactId>json-path</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
