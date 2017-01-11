@@ -36,7 +36,7 @@ public class UserController {
         for (User userInput : users){
             User user = userRepo.findByMail(userInput.getMail());
             if (user == null){
-                userRepo.save(user);
+                userRepo.save(userInput);
                 newUsersCount++;
             }
         }
