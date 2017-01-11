@@ -14,7 +14,7 @@ public class TablesController {
     @RequestMapping("/")
     @ResponseBody
     String home() {
-        return "Hello World!";
+        return "Hello Tables!";
     }
 
     public static void main(String[] args) throws Exception {
