@@ -7,10 +7,12 @@
 </head>
 <body>
 
+<script>
 
-<script type="javascript">
+    var israelEmps = new Array();
+
     function doLoad(){
-        var israelEmps = new Array();
+        israelEmps = new Array();
 
         for (var i = 0; i < dataA.length; i++){
             var item = dataA[i];
@@ -18,12 +20,29 @@
                 continue;
             }
 
-            israelEmps.push(item);
+            //[{ "name":"asdf", "mail":"asdf", "picture":"asdf" }]
+            israelEmps.push("{\"name\":\"" + item.displayName + "\", \"mail\":\"" + item.workEmail + "\", \"picture\":\"" + item.photo + "\"}");
+            //israelEmps.push({ "mail": item.workEmail, "name":item.displayName, "picture": item.photo });
         }
+
+        alert("inserting " + israelEmps.length + " rows");
+
+//        $.ajax({
+//            url:"/bulkInsert",
+//            method:"POST",
+//            dataType: "json",
+//            contentType: "text/plain;charset=UTF-8",
+//            data: {"users": [israelEmps[0]]},
+//            success: function(data){
+//                alert("success:" + data);
+//            },
+//            fail: function(data){
+//                alert("fail:" + data);
+//            }});
     }
 </script>
 
-<script type="javascript">
+<script>
     var dataA = [{
         "displayName": "David Aber",
         "-34": "David",
@@ -12691,7 +12710,7 @@
     }];
 </script>
 
-
+<input type="button" value="START" onclick="doLoad();" />
 
 </body>
 </html>

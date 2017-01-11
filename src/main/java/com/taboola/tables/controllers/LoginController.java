@@ -31,7 +31,7 @@ public class LoginController {
     TaboolaIdentityRepo taboolaIdentityRepo;
 
     @RequestMapping(value = "/login2", method = RequestMethod.POST)
-    public LoginResult login(@RequestParam(name = "token") String token, @CookieValue(name = "t_gid") String taboolaId) throws GeneralSecurityException, IOException {
+    public LoginResult login(@RequestParam(name = "token") String token, @CookieValue(name = "t_gid", required = false) String taboolaId) throws GeneralSecurityException, IOException {
         LoginResult loginResult = new LoginResult();
         loginResult.setLoginSuccess(false);
         try

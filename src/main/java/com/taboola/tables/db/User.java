@@ -40,7 +40,7 @@ public class User {
     @JoinColumn(name="user_id", referencedColumnName="id")
     private List<TaboolaIdentity> taboolaIdentities;
 
-    protected User() {
+    public User() {
         Date now = new Date();
         this.creationDate = now;
         this.updateDate = now;

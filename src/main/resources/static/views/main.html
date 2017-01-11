@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="78184266687-jl0emgs5mqnlo0ivo5trn0q93bmq2els.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="78184266687-p3205d9dedscipo29ghj0953fdvfddlc.apps.googleusercontent.com">
 </head>
 <body>
 <div class="block-item block-item-featured main" ng-class="{revealed: featured}">
@@ -55,7 +55,8 @@
 
         var userId = getUserIfAlreadyLoggedIn();
 
-        console.log("google: %o", googleUser);
+        console.log("google profile: %o", googleUser.getBasicProfile());
+        //console.log("google auth: %o", googleUser.getBasicProfile().getAuthResponse());
 
         if (userId != null){
             $("#my-signin2").hide();

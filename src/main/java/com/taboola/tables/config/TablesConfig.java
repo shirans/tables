@@ -18,7 +18,7 @@ public class TablesConfig {
     public GoogleIdTokenVerifier googleTokenVerifier (){
 
         return new GoogleIdTokenVerifier.Builder(new NetHttpTransport.Builder().build(), new JacksonFactory())
-                .setAudience(Collections.singletonList("78184266687-jl0emgs5mqnlo0ivo5trn0q93bmq2els.apps.googleusercontent.com"))
+                .setAudience(Collections.singletonList("78184266687-p3205d9dedscipo29ghj0953fdvfddlc.apps.googleusercontent.com"))
                 .build();
     }
 

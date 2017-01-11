@@ -11,6 +11,8 @@ public interface UserRepo extends CrudRepository<User, Long> {
 
     User findByGmailId(String gmailId);
 
+    User findByMail(String mail);
+
     List<User> findById(Long id);
 
 }
