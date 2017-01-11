@@ -69,9 +69,101 @@
          </a>
      </nav>
  -->
+
+<div><h1>Featured!</h1></div>
+<div id="chartContainer" style="height: 300px; width: 300px;"></div>
+
+
+<script type="text/javascript" src="/scripts/canvasjs.min.js"></script>
 <script src="scripts/vendor.js"></script>
 <script src="scripts/vendor/isotope.min.333ccf0e.js"></script>
 <script src="scripts/vendor/ng-infinite-scroll.min.4042e865.js"></script>
 <script src="scripts/vendor/tweenmax.min.7c9e1e5f.js"></script>
 <script src="scripts/vendor/jquery.fancybox.pack.cc9e759f.js"></script>
 <script src="scripts/scripts.js"></script>
+
+
+<script>
+
+//    var dps = [
+//        {label: "Person1", y: 10, color: "#FF2500"},
+//        {label: "Person2", y: 20, color: "#FF6000"},
+//        {label: "Person3", y: 5, color: "#6B8E23"},
+//        {label: "Person4", y: 15, color: "#FF6000"},
+//        {label: "Person5", y: 25, color: "#6B8E23"}
+//    ];
+
+    var topUsers = [];
+
+    var chart = new CanvasJS.Chart("chartContainer",{
+        title: {
+            text: "Best Rated Eaters!"
+        },
+        axisY: {
+            suffix: " C"
+        },
+        legend :{
+            verticalAlign: 'bottom',
+            horizontalAlign: "center"
+        },
+        data: [
+            {
+                type: "column",
+                bevelEnabled: true,
+                indexLabel: "{y} C",
+                dataPoints: topUsers
+            }
+        ]
+    });
+
+    function findUserInTopUsers(userName){
+
+        var worstScoreIndex = 0;
+        var worstScoreValue = -1;
+
+        for (var i =  0; i < topUsers.length; i++){
+            if (topUsers[i].label == userName){
+                return topUsers[i];
+            }
+
+            if (worstScoreValue == -1 || worstScoreValue > topUsers[i].y){
+                worstScoreIndex = i;
+                worstScoreValue = topUsers[i].y;
+            }
+        }
+
+        if (topUsers.length > 4){
+            topUsers.splice(worstScoreIndex, 1);
+        }
+        return null;
+    }
+
+    var colors = ["#FF2500", "#FF6000", "#6B8E23"];
+
+    var updateChart = function () {
+
+        $.get("/get-top-scored", function(newTopUsers){
+
+
+            for (var i = 0; i < newTopUsers.length; i++){
+                var newItem = newTopUsers[i];
+                var existingItem = findUserInTopUsers(newItem.name);
+                if (existingItem == null){
+                    topUsers.push({label: newItem.name,y:newItem.score,color:colors[i % colors.length]});
+                }
+                else{
+                    existingItem.y = newItem.score;
+                }
+            }
+
+            chart.render();
+
+            setTimeout(function() {updateChart();}, updateInterval);
+        });
+    };
+
+    var updateInterval = 1000;
+    setTimeout(function() {updateChart();}, updateInterval);
+    //    setInterval(function(){updateChart()}, updateInterval);
+
+</script>

@@ -1,5 +1,6 @@
 package com.taboola.tables.controllers;
 
+import com.google.common.collect.Lists;
 import com.taboola.tables.entities.PartialUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.taboola.tables.db.User;
 import com.taboola.tables.db.UserRepo;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by eyal.s on 11/01/2017.

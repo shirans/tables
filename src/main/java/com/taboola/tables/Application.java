@@ -41,8 +41,8 @@ public class Application {
                 System.out.println(beanName);
             }
 
-            setUpBasicUsers();
-            showFindUsers();
+//            setUpBasicUsers();
+//            showFindUsers();
 
 
 
