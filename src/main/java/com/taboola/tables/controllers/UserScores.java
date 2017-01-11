@@ -23,8 +23,8 @@ public class UserScores {
     private UserRepo userRepo;
 
     @RequestMapping("/add-user-score")
-    public HttpStatus addScore(@RequestParam(value="gmailId") String gmail, @RequestParam(value="score", defaultValue = "1") double score) {
-        final User byGmailId = userRepo.findByGmailId(gmail);
+    public HttpStatus addScore(@RequestParam(value="mail") String mail, @RequestParam(value="score", defaultValue = "1") double score) {
+        final User byGmailId = userRepo.findByMail(mail);
         if (byGmailId == null) {
             return HttpStatus.BAD_REQUEST;
         }

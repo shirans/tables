@@ -57,7 +57,7 @@
         var userMail = $(elm).attr("itemmail");
         var appointmentId = $(elm).attr("appointmentid");
 
-        $.get("/add-user-score?mail=" + userMail + "&appointmentId=" + appointmentId, function (data){
+        $.get("/add-user-score?mail=" + encodeURIComponent(userMail) + "&appointmentId=" + appointmentId, function (data){
             alert("Thanks for rating!");
 //            debugger;
 //            $(elm.parentNode).prop('onclick',null).off('click');
