@@ -2,6 +2,7 @@ package com.taboola.tables.controllers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.h2.tools.Csv;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.api.client.repackaged.com.google.common.base.Strings;
+import com.google.api.client.util.Lists;
 import com.taboola.tables.db.UserSegmentData;
 import com.taboola.tables.db.UserSegmentRepo;
 
@@ -32,9 +34,11 @@ public class LoadUserDataController {
 
         userSegmentRepo.deleteAll();;
 
+        int count= 0;
         try {
             ResultSet rs = new Csv().read(path, null, null);
             while (rs.next()) {
+                count ++;
                 String tid = rs.getString(1);
                 String liverampSegment = rs.getString(2);
                 if(!Strings.isNullOrEmpty(tid) && !Strings.isNullOrEmpty(liverampSegment)) {
@@ -45,7 +49,8 @@ public class LoadUserDataController {
             e.printStackTrace();
         }
 
-        Iterable<UserSegmentData> all = userSegmentRepo.findAll();
+        List<UserSegmentData> all = Lists.newArrayList(userSegmentRepo.findAll());
+        logger.info("num rows: " + count + "  num records: " + all.size());
         all.forEach(x -> logger.info(x.toString()));
 
     }
