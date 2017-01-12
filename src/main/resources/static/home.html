@@ -233,7 +233,7 @@
             withLabels: true,
             layoutAttr: {
                 charge: -120,
-                linkDistance: 20
+                linkDistance: 200
             },
             nodeStyle: {
                 fill: function(d) {
@@ -242,7 +242,7 @@
             },
             nodeAttr:{
                 r: function(d){
-                    return Math.max(d.node.toString().length * 5, 10);
+                    return Math.max(d.node.toString().length * 4, 10);
                 }
             },
             edgeStyle: { fill: '#999' },
