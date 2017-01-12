@@ -1,12 +1,10 @@
 package com.taboola.tables.controllers;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,7 @@ import com.taboola.tables.db.UserSegmentRepo;
 public class AppointmentController {
 
     private static final Logger logger = LoggerFactory.getLogger(AppointmentController.class);
+    private final String[] MOCK_SEGMENTS = {"Karaoke", "Sports", "Travel", "Politics", "Comedy", "Entertainment", "Movies", "Israel", "Animals", "RealEstate"};
 
     @Autowired
     private UserRepo userRepo;
@@ -78,8 +77,14 @@ public class AppointmentController {
     private void addSegments(Appointment appointment){
         final List<User> users = appointment.getUsers();
         for (User user : users) {
-            if (user != null && (user.getUserSegments() == null || user.getUserSegments().isEmpty()))
-                user.setUserSegments(findSegments(user));
+            if (user != null && (user.getUserSegments() == null || user.getUserSegments().isEmpty())) {
+                List<UserDataDirectory> userSegments = findSegments(user);
+                if (userSegments == null || userSegments.size() == 0){
+                    userSegments = getMockSegments();
+                }
+
+                user.setUserSegments(getMockSegments());
+            }
         }
     }
 
@@ -90,6 +95,7 @@ public class AppointmentController {
                 if (taboolaIdentities != null) {
                     final List<UserSegmentData> userSegmentDataList = taboolaIdentities.stream().map(t -> userSegmentRepo.findByTid(t.getTaboolaId())).flatMap(List::stream).collect(Collectors.toList());
                     final List<UserDataDirectory> userDataDirectoryList = userSegmentDataList.stream().map(u -> userDataDirectoryRepo.findBySegmentId(u.getSegment())).collect(Collectors.toList());
+
                     return userDataDirectoryList;
                 }
             }
@@ -101,6 +107,20 @@ public class AppointmentController {
 
     private Appointment getRandomAppointment(){
         return getFirstAppointment();
+    }
+
+    private List<UserDataDirectory> getMockSegments(){
+        ArrayList<UserDataDirectory> result = new ArrayList<>();
+        int segmentCount = new Random(new Date().getTime()).nextInt(5);
+
+        final ArrayList<String> shuffledMockSegments = Lists.newArrayList(MOCK_SEGMENTS);
+        Collections.shuffle(shuffledMockSegments);
+
+        for (int i = 0; i < segmentCount; i++){
+            result.add(new UserDataDirectory(new Long(1), "", shuffledMockSegments.get(i),shuffledMockSegments.get(i)));
+        }
+
+        return result;
     }
 
     private Appointment getMockAppointment(){
