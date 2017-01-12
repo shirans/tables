@@ -39,6 +39,8 @@
              media-circle="" ng-style="circleStyle"></div>
     </div>
 </div>
+
+
 <!--div class="block-items" packery="" infinite-scroll="add_random_assets()"
      infinite-scroll-disabled="(!featured || !ready)" ng-show="featured" infinite-scroll-distance="0.3">
     <div class="block-item-small"></div>
@@ -57,7 +59,7 @@
         var userMail = $(elm).attr("itemmail");
         var appointmentId = $(elm).attr("appointmentid");
 
-        $.get("/add-user-score?mail=" + userMail + "&appointmentId=" + appointmentId, function (data){
+        $.get("/add-user-score?mail=" + encodeURIComponent(userMail) + "&appointmentId=" + appointmentId, function (data){
             alert("Thanks for rating!");
 //            debugger;
 //            $(elm.parentNode).prop('onclick',null).off('click');

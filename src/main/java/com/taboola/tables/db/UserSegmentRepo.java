@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
  */
 public interface UserSegmentRepo extends CrudRepository<UserSegmentData, Long> {
 
-    List<UserSegmentData> getLiverampSegemnts(@Param("tid") String tid);
+    List<UserSegmentData> findByTid(String tid);
 
 
 }
