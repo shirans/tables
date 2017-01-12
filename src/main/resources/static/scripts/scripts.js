@@ -169,7 +169,7 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         }
         return $http.get(dataUrl).success(function (response) {
             console.log("result: %o", response);
-            //response = defaultDrop;
+            currentAppointment = response;
             if (response != null && response.users != null){
                 var result = defaultDrop;
                 try{
@@ -191,7 +191,6 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
             }else{
                 response = defaultDrop;
             }
-
             console.log("result: %o", response);
             deferred.resolve(drop_shim(response[response.length - 1]))
         }), deferred.promise
@@ -293,10 +292,10 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
         $scope.items = $scope.items.concat(random_items), $scope.ready = !0
     }, this.load_featured_drop()
 }]), angular.module("dropApp").controller("HeaderCtrl", ["$scope", "$location", function ($scope, $location) {
-    $scope.links = [{title: "FEATURED", path: "/drop/featured", color: "#fae62d"}, {
-        title: "ALL",
+    $scope.links = [{title: "BEST OF", path: "/drop/featured", color: "#fae62d", section:"section02"}, {
+        title: "ABOULT ME",
         path: "/all",
-        color: "#9bf0e1"
+        color: "#9bf0e1",section:"section03"
     }], $scope.timestamp = (new Date).getTime(), $scope.visisble = !0, $scope.toggleShare = function (toggle) {
         var $shareButtons = $(".share-button"), buttonsNum = $shareButtons.length, buttonsMid = buttonsNum / 3, spacing = 90;
         $scope.visisble && "close" !== toggle ? ($shareButtons.each(function (i) {
@@ -813,6 +812,8 @@ var defaultDrop = [
         "name": "Welcome to Taboola Tables!",
         "description": "Eat with other people and get rated!",
         "album": "It's Fun AND delicious!",
+        "location":"",
+        "appTime":"",
         "header_image_id": 2,
         "featured_image_id": 2,
         "featured": 2,

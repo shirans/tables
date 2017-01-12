@@ -10,6 +10,34 @@ import javax.persistence.Id;
  */
 @Entity
 public class UserSegmentData {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String tid;
+    private String segment;
+
+    public void setTid(String tid) {
+        this.tid = tid;
+    }
+
+    public UserSegmentData(String tid, String segment) {
+        this.tid = tid;
+        this.segment = segment;
+    }
+
+    public String getTid() {
+        return tid;
+    }
+
+    public String getSegment() {
+        return segment;
+    }
+
+    UserSegmentData() {}
+
+    public void setSegment(String segment) {
+        this.segment = segment;
+    }
     public Long getId() {
         return id;
     }
@@ -18,38 +46,6 @@ public class UserSegmentData {
         this.id = id;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String tid;
-    private String segments;
-
-    public String getSegments() {
-        return segments;
-    }
-
-
-    public void setTid(String tid) {
-        this.tid = tid;
-    }
-
-    public UserSegmentData(String tid, String segments) {
-        this.tid = tid;
-        this.segments = segments;
-    }
-
-    public String getTid() {
-        return tid;
-    }
-
-    public String getSegment() {
-        return segments;
-    }
-
-
-    public void setSegments(String segments) {
-        this.segments = segments;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,7 +56,7 @@ public class UserSegmentData {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (tid != null ? !tid.equals(that.tid) : that.tid != null) return false;
-        return segments != null ? segments.equals(that.segments) : that.segments == null;
+        return segment != null ? segment.equals(that.segment) : that.segment == null;
 
     }
 
@@ -68,7 +64,7 @@ public class UserSegmentData {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (tid != null ? tid.hashCode() : 0);
-        result = 31 * result + (segments != null ? segments.hashCode() : 0);
+        result = 31 * result + (segment != null ? segment.hashCode() : 0);
         return result;
     }
 
@@ -77,7 +73,7 @@ public class UserSegmentData {
         return "UserSegmentData{" +
                 "id=" + id +
                 ", tid='" + tid + '\'' +
-                ", segments='" + segments + '\'' +
+                ", segments='" + segment + '\'' +
                 '}';
     }
 }

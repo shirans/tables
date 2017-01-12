@@ -7,7 +7,14 @@ package com.taboola.tables.db;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,6 +46,9 @@ public class User {
     @OneToMany
     @JoinColumn(name="user_id", referencedColumnName="id")
     private List<TaboolaIdentity> taboolaIdentities;
+
+    @Transient
+    private List<UserDataDirectory> userSegments;
 
     public User() {
         Date now = new Date();
@@ -152,6 +162,13 @@ public class User {
         return taboolaIdentities;
     }
 
+    public List<UserDataDirectory> getUserSegments() {
+        return userSegments;
+    }
+
+    public void setUserSegments(List<UserDataDirectory> userSegments) {
+        this.userSegments = userSegments;
+    }
 
     @Override
     public String toString() {
