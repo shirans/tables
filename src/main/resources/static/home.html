@@ -103,7 +103,7 @@
     <br />
     <div style="margin:50px; display:flex; align-items:center;justify-content:center;flex-direction:column;">
         <h1>Your Table Segments!</h1>
-        <div id="canvas" style="width:1500px;height:900px;"></div>
+        <div id="canvas" style="width:1200px;height:700px;"></div>
     </div>
 </section>
 
@@ -144,7 +144,7 @@
 <script src="scripts/scripts.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://jsnetworkx.org/javascripts/scale.fix.js"></script>
-<script src="http://jsnetworkx.org/javascripts/jsnetworkx.js"></script>
+<script src="scripts/jsnetworkx.js"></script>
 
 <script>
 
@@ -240,8 +240,8 @@
 <script>
 
     function prepareTableSegmentsGraph(){
-        if (currentAppointment == null){
-            setTimeout(function(){prepareTableSegmentsGraph()}, 5000);
+        if (currentAppointment == null || currentAppointment.users == null){
+            setTimeout(function(){prepareTableSegmentsGraph();}, 5000);
             return;
         }
         createSegmentsGraph(currentAppointment.users, "canvas");
@@ -278,17 +278,18 @@
             element: '#' + elmId,
             withLabels: true,
             layoutAttr: {
-                charge: -120,
-                linkDistance: 200
+                charge: -500,
+                linkDistance: 100
             },
             nodeStyle: {
                 fill: function(d) {
                     return d.data.color;
-                }
+                },
+                "font-size":"4px"
             },
             nodeAttr:{
                 r: function(d){
-                    return Math.max(d.node.toString().length * 4, 10);
+                    return Math.max(d.node.toString().length * 3, 10);
                 }
             },
             edgeStyle: { fill: '#999' },
