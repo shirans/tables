@@ -240,7 +240,7 @@
 <script>
 
     function prepareTableSegmentsGraph(){
-        if (currentAppointment == null){
+        if (currentAppointment == null || currentAppointment.users == null){
             setTimeout(function(){prepareTableSegmentsGraph();}, 5000);
             return;
         }
