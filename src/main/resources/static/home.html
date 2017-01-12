@@ -216,14 +216,14 @@
         for (var i = 0; i < currentAppointment.users.length; i++){
             var currUser = currentAppointment.users[i];
 
-            if (currUser.segments == null){
+            if (currUser.userSegments == null){
                 G.addNodesFrom([currUser.name],{color: '#008A00'});
                 continue;
             }
 
-            for (var j = 0; j < currUser.segments.length; i++){
-                G.addNodesFrom([currUser.name,currUser.segments[i]], {color: '#008A00'});
-                G.addEdgesFrom([[currUser.name, currUser.segments[i]]]);
+            for (var j = 0; j < currUser.userSegments.length; i++){
+                G.addNodesFrom([currUser.name,currUser.userSegments[i]], {color: '#008A00'});
+                G.addEdgesFrom([[currUser.name, currUser.userSegments[i]]]);
             }
         }
 
