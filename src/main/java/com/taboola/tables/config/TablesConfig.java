@@ -80,9 +80,12 @@ public class TablesConfig {
                     TablesConfig.class.getClassLoader().getResourceAsStream("client_secret_calender.json");
             GoogleClientSecrets clientSecrets =
                     GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
-            File tokens = new ClassPathResource("tokens-calendar").getFile();
-            if (tokens.getAbsolutePath().contains("jar")) {
+            String path = new ClassPathResource("tokens-calendar").getURL().getFile();
+            File tokens;
+            if (path.contains("jar")) {
                 tokens = new File("/tokens-calendar");
+            } else {
+                tokens = new File(path);
             }
             // Build flow and trigger user authorization request.
             GoogleAuthorizationCodeFlow flow =
@@ -110,10 +113,14 @@ public class TablesConfig {
                     TablesConfig.class.getClassLoader().getResourceAsStream("client_secret_gmail.json");
             GoogleClientSecrets clientSecrets =
                     GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
-            File tokens = new ClassPathResource("tokens-gmail").getFile();
-            if (tokens.getAbsolutePath().contains("jar")) {
+            String path = new ClassPathResource("tokens-gmail").getURL().getFile();
+            File tokens;
+            if (path.contains("jar")) {
                 tokens = new File("/tokens-gmail");
+            } else {
+                tokens = new File(path);
             }
+
             // Build flow and trigger user authorization request.
             GoogleAuthorizationCodeFlow flow =
                     new GoogleAuthorizationCodeFlow.Builder(
