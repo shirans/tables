@@ -85,6 +85,7 @@ public class LoginController {
         }
         else{
             user.setGmailId(payload.getSubject());
+            user.setPicture((String)payload.get("picture"));
             userRepo.save(user);
         }
 

@@ -21,6 +21,7 @@ import com.google.api.services.gmail.GmailScopes;
 import com.google.common.collect.Lists;
 import com.taboola.tables.controllers.LoginController;
 import com.taboola.tables.managers.CalendarManager;
+import com.taboola.tables.managers.EmailManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -66,24 +67,47 @@ public class TablesConfig {
     @Bean
     public com.google.api.services.calendar.Calendar calendarService(JsonFactory jsonFactory, HttpTransport transport) throws IOException, GeneralSecurityException {
         // Load client secrets.
-        final InputStream resourceAsStream = CalendarManager.class.getClassLoader().getResourceAsStream("client_secret.json");
+        /*final InputStream resourceAsStream = TablesConfig.class.getClassLoader().getResourceAsStream("client_secret.json");
         GoogleCredential credential = GoogleCredential.fromStream(resourceAsStream)
                 .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
 
         return new com.google.api.services.calendar.Calendar.Builder(
                 transport, jsonFactory, credential)
                 .setApplicationName(APPLICATION_NAME)
-                .build();
+                .build();*/
+        try {
+            InputStream in =
+                    TablesConfig.class.getClassLoader().getResourceAsStream("client_secret_calender.json");
+            GoogleClientSecrets clientSecrets =
+                    GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
+            File tokens = new ClassPathResource("tokens-calendar").getFile();
+            // Build flow and trigger user authorization request.
+            GoogleAuthorizationCodeFlow flow =
+                    new GoogleAuthorizationCodeFlow.Builder(
+                            transport, jsonFactory, clientSecrets, Lists.newArrayList(CalendarScopes.CALENDAR))
+                            .setDataStoreFactory(new FileDataStoreFactory(tokens))
+                            .setAccessType("offline")
+                            .build();
+            Credential credential = new AuthorizationCodeInstalledApp(
+                    flow, new LocalServerReceiver()).authorize("user");
+
+            return new com.google.api.services.calendar.Calendar.Builder(transport, jsonFactory, credential)
+                    .setApplicationName(APPLICATION_NAME)
+                    .build();
+        } catch (Exception ex) {
+            logger.error("An error occurred while initializing gmail service", ex);
+        }
+        return null;
     }
 
     @Bean
     public Gmail gmailService(JsonFactory jsonFactory, HttpTransport transport) throws IOException {
         try {
             InputStream in =
-                    CalendarManager.class.getClassLoader().getResourceAsStream("client_secret_gmail.json");
+                    TablesConfig.class.getClassLoader().getResourceAsStream("client_secret_gmail.json");
             GoogleClientSecrets clientSecrets =
                     GoogleClientSecrets.load(jsonFactory, new InputStreamReader(in));
-            File tokens = new ClassPathResource("tokens").getFile();
+            File tokens = new ClassPathResource("tokens-gmail").getFile();
             // Build flow and trigger user authorization request.
             GoogleAuthorizationCodeFlow flow =
                     new GoogleAuthorizationCodeFlow.Builder(
@@ -107,5 +131,11 @@ public class TablesConfig {
     public CalendarManager calendarManager() {
         return new CalendarManager();
     }
+
+    @Bean
+    public EmailManager emailManager() {
+        return new EmailManager();
+    }
+
 
 }

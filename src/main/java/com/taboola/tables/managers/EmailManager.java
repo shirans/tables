@@ -82,23 +82,14 @@ public class EmailManager {
     }
 
     public void sendEmail(Collection<User> users, String emailHtmlBody) throws MessagingException, javax.mail.MessagingException, IOException {
-        String emailBody = buildEmailBodyForTest(users);
-        MimeMessage message = createEmail(users, TablesConfig.OWNER_EMAIL, "Lunch by Taboola Tables", emailBody);
+        MimeMessage message = createEmail(users, TablesConfig.OWNER_EMAIL, "Lunch by Taboola Tables", emailHtmlBody);
         sendMessage(message);
     }
 
     // @RequestMapping(name = "/sendEmails")
-    public void sendEmails() throws MessagingException, IOException, javax.mail.MessagingException {
+    /*public void sendEmails() throws MessagingException, IOException, javax.mail.MessagingException {
         Collection<User> users  = Lists.newArrayList(new User("Eyal Segal", "234234", "eyal.s@taboola.com"), new User("Shiran Shwartz", "234234", "shiran.s@taboola.com"),
                 new User("Boaz Yaniv", "234234", "boaz.y@taboola.com"), new User("Rami Stern", "234234", "rami.s@taboola.com"));
         sendEmail(users, buildEmailBodyForTest(users));
-    }
-
-    private static String buildEmailBodyForTest(Collection<User> users) {
-        return "<html><body>" +
-                "<h3>You are scheduled to lunch with: </h3>" +
-                users.stream().map(user -> "<div>" + user.getName() + "</div>").collect(Collectors.joining()) +
-                "</body></html>";
-
-    }
+    }*/
 }
