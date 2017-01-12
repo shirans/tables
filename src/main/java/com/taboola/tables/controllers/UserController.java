@@ -80,7 +80,12 @@ public class UserController {
             }else{
                 user.setPicture(userInput.getPicture());
             }
-            userRepo.save(user);
+            try{
+                userRepo.save(user);
+            }
+            catch (Throwable e){
+                e.printStackTrace();
+            }
         }
         return "OK: " + newUsersCount;
     }
