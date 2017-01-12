@@ -29,21 +29,44 @@ public class LoadUserDataController {
     @Autowired
     UserSegmentRepo userSegmentRepo;
 
-    @RequestMapping(value = "/admin/loaddata", method = RequestMethod.GET)
+    public static void main(String args[]) {
+        String path = "~/data.csv";
+        int count = 0;
+        try {
+
+            ResultSet rs = new Csv().read(path, null, null);
+            while (rs.next()) {
+                count++;
+                String tid = rs.getString(1);
+                String liverampSegment = rs.getString(2);
+                if (liverampSegment!= null) {
+                    String q = String.format("insert into user_segment_data (tid,segment) values ('%s','%s'); ", tid, liverampSegment);
+                    System.out.println(q);
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+        @RequestMapping(value = "/admin/loaddata", method = RequestMethod.GET)
     public void load(@RequestParam(name = "path", defaultValue = "~/data.csv") String path) {
 
         userSegmentRepo.deleteAll();;
 
         int count= 0;
         try {
+
             ResultSet rs = new Csv().read(path, null, null);
             while (rs.next()) {
                 count ++;
                 String tid = rs.getString(1);
                 String liverampSegment = rs.getString(2);
-                if(!Strings.isNullOrEmpty(tid) && !Strings.isNullOrEmpty(liverampSegment)) {
-                    userSegmentRepo.save(new UserSegmentData(tid, liverampSegment));
-                }
+                String q = String.format("insert into user_segment_data (tid,segment) values (%s,%s) ",tid,liverampSegment);
+                System.out.println(q);
+
             }
         } catch (SQLException e) {
             logger.error("An error occurred", e);
