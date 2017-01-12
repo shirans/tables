@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface UserDataDirectoryRepo extends CrudRepository<UserDataDirectory, Long> {
 
     UserDataDirectory findBySegmentId(String segmentId);
+
 }
