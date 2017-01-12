@@ -231,6 +231,10 @@
         jsnx.draw(G, {
             element: '#canvas',
             withLabels: true,
+            layoutAttr: {
+                charge: -120,
+                linkDistance: 20
+            },
             nodeStyle: {
                 fill: function(d) {
                     return d.data.color;
