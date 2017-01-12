@@ -100,7 +100,7 @@ public class RaffleController {
     private String createLunchEmail(Collection<User> users, String hangoutsLink) {
         return "<html><body>" +
                 "<h3>You are scheduled to lunch with: </h3>" +
-                users.stream().map(user -> "<div>" + user.getName() + "</div>").collect(Collectors.joining()) +
+                users.stream().map(user -> "<table><tr><td><img src=\"" + user.getPicture() + "\" style=\"width:30px;height:30px;\" /></td><td>" + user.getName() + "</td></tr></table>").collect(Collectors.joining()) +
                 "<a href='" + hangoutsLink + "'>Talk about it!</a>" +
                 "</body></html>";
     }
