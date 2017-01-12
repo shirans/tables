@@ -223,7 +223,7 @@
             }
 
             for (var j = 0; j < currUser.userSegments.length; j++){
-                G.addNodesFrom([currUser.name,currUser.userSegments[j].segmentName], {color: '#008A00'});
+                G.addNodesFrom([[currUser.name, {color: '#008A00'}],[currUser.userSegments[j].segmentName, {color: '#00C7AE'}]]);
                 G.addEdgesFrom([[currUser.name, currUser.userSegments[j].segmentName]]);
             }
         }
