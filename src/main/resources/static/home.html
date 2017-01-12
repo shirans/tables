@@ -215,15 +215,16 @@
 
         for (var i = 0; i < currentAppointment.users.length; i++){
             var currUser = currentAppointment.users[i];
-
-            if (currUser.userSegments == null){
+            console.log("currUser: " + currUser.name);
+            if (currUser.userSegments == null || currUser.userSegments.length == 0){
+                console.log(currUser.name + " has no segments");
                 G.addNodesFrom([currUser.name],{color: '#008A00'});
                 continue;
             }
 
-            for (var j = 0; j < currUser.userSegments.length; i++){
-                G.addNodesFrom([currUser.name,currUser.userSegments[i]], {color: '#008A00'});
-                G.addEdgesFrom([[currUser.name, currUser.userSegments[i]]]);
+            for (var j = 0; j < currUser.userSegments.length; j++){
+                G.addNodesFrom([currUser.name,currUser.userSegments[j].segmentName], {color: '#008A00'});
+                G.addEdgesFrom([[currUser.name, currUser.userSegments[j].segmentName]]);
             }
         }
 
@@ -246,5 +247,9 @@
     }
 
     createSegmentsGraph();
+
+    function getName(segmentName){
+        return null;
+    }
 
 </script>
