@@ -69,6 +69,7 @@ public class AppointmentController {
             return nextAppointment;
         }
         catch (Throwable e){
+            logger.error("ERROR", e);
             e.printStackTrace();
             return getFirstAppointment();
         }
@@ -100,6 +101,7 @@ public class AppointmentController {
                 }
             }
         } catch (Exception e){
+            logger.error("ERROR", e);
             return null;
         }
         return null;
@@ -146,6 +148,7 @@ public class AppointmentController {
             return cursor.next();
         }
         catch (Throwable e){
+            logger.error("ERROR", e);
             e.printStackTrace();
             return getMockAppointment();
         }

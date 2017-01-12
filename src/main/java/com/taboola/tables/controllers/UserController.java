@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ import com.taboola.tables.db.UserSegmentRepo;
  */
 @RestController
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserRepo userRepo;
@@ -50,19 +54,42 @@ public class UserController {
         return Lists.newArrayList(userRepo.findAll());
     }
 
-    @RequestMapping("/segments")
-    public List<UserDataDirectory> getSegments(@RequestParam(name = "gmailId") String gmailId) {
+    @RequestMapping("/segments-all-users")
+    public List<User> getAllUserSegments() {
         try {
-            User byGmailId = userRepo.findByGmailId(gmailId);
-            if (byGmailId != null) {
-                final List<TaboolaIdentity> taboolaIdentities = byGmailId.getTaboolaIdentities();
+            final List<User> users = Lists.newArrayList(userRepo.findAll());
+            final List<User> usersWithSegments = new ArrayList<>();
+            for (User user : users) {
+                if (user != null) {
+                    List<UserDataDirectory> userSegments = findSegments(user);
+                    if (userSegments == null || userSegments.size() == 0){
+                        //userSegments = getMockSegments();
+                        continue;
+                    }
+                    user.setUserSegments(userSegments);
+                    usersWithSegments.add(user);
+                }
+            }
+            return usersWithSegments;
+        } catch (Exception e){
+            logger.error("ERROR" ,e);
+            return null;
+        }
+    }
+
+    private List<UserDataDirectory> findSegments(User user) {
+        try {
+            if (user != null) {
+                final List<TaboolaIdentity> taboolaIdentities = user.getTaboolaIdentities();
                 if (taboolaIdentities != null) {
                     final List<UserSegmentData> userSegmentDataList = taboolaIdentities.stream().map(t -> userSegmentRepo.findByTid(t.getTaboolaId())).flatMap(List::stream).collect(Collectors.toList());
                     final List<UserDataDirectory> userDataDirectoryList = userSegmentDataList.stream().map(u -> userDataDirectoryRepo.findBySegmentId(u.getSegment())).collect(Collectors.toList());
+
                     return userDataDirectoryList;
                 }
             }
         } catch (Exception e){
+            logger.error("ERROR" ,e);
             return null;
         }
         return null;
@@ -84,7 +111,7 @@ public class UserController {
                 userRepo.save(user);
             }
             catch (Throwable e){
-                e.printStackTrace();
+                logger.error("ERROR" ,e);
             }
         }
         return "OK: " + newUsersCount;

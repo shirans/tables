@@ -46,6 +46,7 @@ public class LoadUserDataController {
                 }
             }
         } catch (SQLException e) {
+            logger.error("ERROR", e);
             e.printStackTrace();
         }
 

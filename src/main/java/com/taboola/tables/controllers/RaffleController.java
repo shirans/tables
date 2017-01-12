@@ -76,6 +76,7 @@ public class RaffleController {
             final Iterable<Appointment> appointments = appoitnemntRepo.findAll();
             return HttpStatus.OK;
         } catch (Exception e){
+            logger.error("ERROR" ,e);
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
 //        return appointments;

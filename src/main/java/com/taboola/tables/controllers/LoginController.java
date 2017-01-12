@@ -65,6 +65,7 @@ public class LoginController {
                 loginResult.setLoginSuccess(true);
 
             } else {
+                logger.warn("Invalid ID token.");
                 System.out.println("Invalid ID token.");
             }
         }
