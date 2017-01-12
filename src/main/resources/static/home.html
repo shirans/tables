@@ -102,8 +102,36 @@
     <br />
     <br />
     <div style="margin:50px; display:flex; align-items:center;justify-content:center;flex-direction:column;">
-        <h1>Taboola Segments!</h1>
+        <h1>Your Table Segments!</h1>
         <div id="canvas" style="width:900px;height:700px;"></div>
+    </div>
+</section>
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<section id="section04" class="demo">
+    <br />
+    <br />
+    <div style="margin:50px; display:flex; align-items:center;justify-content:center;flex-direction:column;">
+        <h1>Taboola Segments!</h1>
+        <div id="canvas2" style="width:900px;height:700px;"></div>
     </div>
 </section>
 
@@ -203,18 +231,27 @@
 
 <script>
 
-    function createSegmentsGraph(){
-        console.log("in createSegmentsGraph");
+    function prepareTableSegmentsGraph(){
         if (currentAppointment == null){
-            setTimeout(function(){createSegmentsGraph()}, 5000);
+            setTimeout(function(){prepareTableSegmentsGraph()}, 5000);
             return;
         }
+        createSegmentsGraph(currentAppointment.users, "canvas");
+    }
+
+    function prepareAllUsersSegmentsGraph(){
+        $.get("/segments-all-users", function(data){
+            createSegmentsGraph(data, "canvas2");
+        });
+    }
+
+    function createSegmentsGraph(users, elmId){
 
         console.log("in createSegmentsGraph - not null!");
         var G = new jsnx.DiGraph();
 
-        for (var i = 0; i < currentAppointment.users.length; i++){
-            var currUser = currentAppointment.users[i];
+        for (var i = 0; i < users.length; i++){
+            var currUser = users[i];
             console.log("currUser: " + currUser.name);
             if (currUser.userSegments == null || currUser.userSegments.length == 0){
                 console.log(currUser.name + " has no segments");
@@ -229,7 +266,7 @@
         }
 
         jsnx.draw(G, {
-            element: '#canvas',
+            element: '#' + elmId,
             withLabels: true,
             layoutAttr: {
                 charge: -120,
@@ -251,7 +288,8 @@
         });
     }
 
-    createSegmentsGraph();
+    prepareTableSegmentsGraph();
+    prepareAllUsersSegmentsGraph();
 
     function getName(segmentName){
         return null;

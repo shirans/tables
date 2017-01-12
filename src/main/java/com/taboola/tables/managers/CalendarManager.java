@@ -40,12 +40,8 @@ public class CalendarManager {
     /** Global instance of the HTTP transport. */
     private static HttpTransport HTTP_TRANSPORT;
 
-    private static final String CLIENT_ID = "78184266687-jl0emgs5mqnlo0ivo5trn0q93bmq2els.apps.googleusercontent.com";
-    private static final String CLIENT_SECRET = "t0kcZvjoVRgXCjI_oYOyUGBm";
-    private static final String API_TOKEN = "AIzaSyDbDLoQVHnp1SVjcomxm5LTr7j4YYsxzWs";
     private static final String INVITATION_SUMMARY = "Taboola Tables Lunch";
     private static final String INVITATION_LOCATION = "Wherever you want!";
-    private static final String INVITATION_COLOR = "Green";
     private static final String OWNER_DISPLAY_NAME = TablesConfig.APPLICATION_NAME;
 
     /** Global instance of the scopes required by this quickstart.
@@ -64,7 +60,7 @@ public class CalendarManager {
     Resource clientSecret;*/
 
 
-    public void scheduleLunch(DateTime startTime, int durationInMinutes, List<User> users, TimeZone timezone) throws IOException {
+    public Event scheduleLunch(DateTime startTime, int durationInMinutes, List<User> users, TimeZone timezone) throws IOException {
         logger.info("Sending lunch appointment to [{}] on [{}]", users, startTime);
         Event event = new Event()
                 .setSummary(INVITATION_SUMMARY)
@@ -90,6 +86,7 @@ public class CalendarManager {
         event.setCreator(new Event.Creator().setDisplayName(OWNER_DISPLAY_NAME).setEmail(TablesConfig.OWNER_EMAIL));
 
         event = calendarService.events().insert(calendarId, event).execute();
+        return event;
     }
 
     /*
