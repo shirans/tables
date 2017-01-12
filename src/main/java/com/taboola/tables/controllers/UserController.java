@@ -75,11 +75,12 @@ public class UserController {
         for (User userInput : users){
             User user = userRepo.findByMail(userInput.getMail());
             if (user == null){
+                user = userInput;
                 newUsersCount++;
             }else{
                 user.setPicture(userInput.getPicture());
             }
-            userRepo.save(userInput);
+            userRepo.save(user);
         }
         return "OK: " + newUsersCount;
     }
