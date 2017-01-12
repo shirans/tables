@@ -30,10 +30,10 @@ public class UserController {
     UserRepo userRepo;
 
     @Autowired
-    UserSegmentRepo userSegmentRepot;
+    private UserSegmentRepo userSegmentRepo;
 
     @Autowired
-    UserDataDirectoryRepo userDataDirectoryRepo;
+    private UserDataDirectoryRepo userDataDirectoryRepo;
 
     @RequestMapping(value = "/singleUser", method = RequestMethod.GET)
     public User login(@RequestParam(name = "gmailId") String gmailId) {
@@ -57,7 +57,7 @@ public class UserController {
             if (byGmailId != null) {
                 final List<TaboolaIdentity> taboolaIdentities = byGmailId.getTaboolaIdentities();
                 if (taboolaIdentities != null) {
-                    final List<UserSegmentData> userSegmentDataList = taboolaIdentities.stream().map(t -> userSegmentRepot.findByTid(t.getTaboolaId())).flatMap(List::stream).collect(Collectors.toList());
+                    final List<UserSegmentData> userSegmentDataList = taboolaIdentities.stream().map(t -> userSegmentRepo.findByTid(t.getTaboolaId())).flatMap(List::stream).collect(Collectors.toList());
                     final List<UserDataDirectory> userDataDirectoryList = userSegmentDataList.stream().map(u -> userDataDirectoryRepo.findBySegmentId(u.getSegment())).collect(Collectors.toList());
                     return userDataDirectoryList;
                 }

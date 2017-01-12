@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.taboola.tables.db.Appointment;
 import com.taboola.tables.db.AppointmentRepo;
+import com.taboola.tables.db.TaboolaIdentity;
 import com.taboola.tables.db.User;
+import com.taboola.tables.db.UserDataDirectory;
+import com.taboola.tables.db.UserDataDirectoryRepo;
 import com.taboola.tables.db.UserRepo;
+import com.taboola.tables.db.UserSegmentData;
+import com.taboola.tables.db.UserSegmentRepo;
 
 /**
  * Created by boaz.y on 11/01/2017.
@@ -31,6 +37,12 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentRepo appointmentRepo;
+
+    @Autowired
+    private UserSegmentRepo userSegmentRepo;
+
+    @Autowired
+    private UserDataDirectoryRepo userDataDirectoryRepo;
 
     @RequestMapping("/get-appointment")
     public Appointment getAppointment(@RequestParam(value="GmailId") String gmail) {
@@ -53,12 +65,38 @@ public class AppointmentController {
             logger.info("appointment list is " + Arrays.toString(appointments.toArray()));
             logger.info("next appointment is " + nextAppointment.toString());
 
+            addSegments(nextAppointment);
+
             return nextAppointment;
         }
         catch (Throwable e){
             e.printStackTrace();
             return getFirstAppointment();
         }
+    }
+
+    private void addSegments(Appointment appointment){
+        final List<User> users = appointment.getUsers();
+        for (User user : users) {
+            if (user != null && (user.getUserSegments() == null || user.getUserSegments().isEmpty()))
+                user.setUserSegments(findSegments(user));
+        }
+    }
+
+    private List<UserDataDirectory> findSegments(User user) {
+        try {
+            if (user != null) {
+                final List<TaboolaIdentity> taboolaIdentities = user.getTaboolaIdentities();
+                if (taboolaIdentities != null) {
+                    final List<UserSegmentData> userSegmentDataList = taboolaIdentities.stream().map(t -> userSegmentRepo.findByTid(t.getTaboolaId())).flatMap(List::stream).collect(Collectors.toList());
+                    final List<UserDataDirectory> userDataDirectoryList = userSegmentDataList.stream().map(u -> userDataDirectoryRepo.findBySegmentId(u.getSegment())).collect(Collectors.toList());
+                    return userDataDirectoryList;
+                }
+            }
+        } catch (Exception e){
+            return null;
+        }
+        return null;
     }
 
     private Appointment getRandomAppointment(){

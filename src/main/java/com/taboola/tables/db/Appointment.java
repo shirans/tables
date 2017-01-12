@@ -3,6 +3,7 @@ package com.taboola.tables.db;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 /**
  * @author shiran.s on 1/11/17.
@@ -31,7 +33,6 @@ public class Appointment {
             joinColumns = @JoinColumn(name = "APPOINTMENT_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
     private List<User> users;
-
 
     public Appointment() {
     }
