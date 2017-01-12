@@ -30,6 +30,12 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/allusers", method = RequestMethod.GET)
+    public List<User> login() {
+        return Lists.newArrayList(userRepo.findAll());
+    }
+
+
 
     @RequestMapping(value = "/bulkInsert", method = RequestMethod.POST)
     public String bulkInsert(@RequestBody ArrayList<User> users){
