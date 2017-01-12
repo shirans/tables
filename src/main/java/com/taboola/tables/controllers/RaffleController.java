@@ -48,7 +48,8 @@ public class RaffleController {
     private EmailManager emailManager;
 
     @RequestMapping("/admin/raffle")
-    public HttpStatus getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates) {
+    public HttpStatus getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates,
+                                @RequestParam(value="sendInvites", defaultValue="false") boolean sendInvites) {
         try{
             if (numOfParticipates < 2 || numOfParticipates > 8) {
                 logger.info("Num of participates is " +numOfParticipates+" shoud be between 3 to 8, setting to 4");
@@ -79,8 +80,10 @@ public class RaffleController {
             for (List<User> userList : groups.values()) {
                 final Appointment appointment = new Appointment( "At Taboola Kitchen", nextTablesDate, userList);
                 appoitnemntRepo.save(appointment);
-                Event event = calendarManager.scheduleLunch(lunchTime, 60, userList, TimeZone.getTimeZone("Israel"));
-                emailManager.sendEmail(userList, createLunchEmail(userList, event.getHangoutLink()));
+                if (sendInvites) {
+                    Event event = calendarManager.scheduleLunch(lunchTime, 60, userList, TimeZone.getTimeZone("Israel"));
+                    emailManager.sendEmail(userList, createLunchEmail(userList, event));
+                }
             }
             final Iterable<Appointment> appointments = appoitnemntRepo.findAll();
             return HttpStatus.OK;
@@ -97,11 +100,18 @@ public class RaffleController {
         return localDateTime;
     }
 
-    private String createLunchEmail(Collection<User> users, String hangoutsLink) {
+    private String createLunchEmail(Collection<User> users, Event event) {
         return "<html><body>" +
+                "<h2>Taboola Tables - Your weekly surprise lunch </h2>" +
                 "<h3>You are scheduled to lunch with: </h3>" +
                 users.stream().map(user -> "<table><tr><td><img src=\"" + user.getPicture() + "\" style=\"width:30px;height:30px;\" /></td><td>" + user.getName() + "</td></tr></table>").collect(Collectors.joining()) +
-                "<a href='" + hangoutsLink + "'>Talk about it!</a>" +
+                "<div><a href='" + buildHangoutsLink(event) + "'>Talk about it!</a></div>" +
+                "<br/>" +
+                "<div><small><a href='http://tables.taboola.com'>tables.taboola.com</a></small></div>" +
                 "</body></html>";
+    }
+
+    private static String buildHangoutsLink(Event event) {
+        return String.format("https://plus.google.com/hangouts/_/taboola.com/taboola-tables?hceid=dGFibGVzQHRhYm9vbGEuY29t.%s&authuser=0", event.getId());
     }
 }
