@@ -293,7 +293,7 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
     }, this.load_featured_drop()
 }]), angular.module("dropApp").controller("HeaderCtrl", ["$scope", "$location", function ($scope, $location) {
     $scope.links = [{title: "BEST OF", path: "/drop/featured", color: "#fae62d", section:"section02"}, {
-        title: "ABOULT ME",
+        title: "ABOUT ME",
         path: "/all",
         color: "#9bf0e1",section:"section03"
     }], $scope.timestamp = (new Date).getTime(), $scope.visisble = !0, $scope.toggleShare = function (toggle) {

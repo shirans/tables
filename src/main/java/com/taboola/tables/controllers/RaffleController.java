@@ -1,18 +1,18 @@
 package com.taboola.tables.controllers;
 
 import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.temporal.TemporalField;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.model.Event;
+import com.taboola.tables.managers.CalendarManager;
+import com.taboola.tables.managers.EmailManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,13 @@ public class RaffleController {
     @Autowired
     private AppointmentRepo appoitnemntRepo;
 
-    @RequestMapping("/raffle")
+    @Autowired
+    private CalendarManager calendarManager;
+
+    @Autowired
+    private EmailManager emailManager;
+
+    @RequestMapping("/admin/raffle")
     public HttpStatus getGroups(@RequestParam(value="numOfParticipates", defaultValue="4") int numOfParticipates) {
         try{
             if (numOfParticipates < 2 || numOfParticipates > 8) {
@@ -69,13 +75,17 @@ public class RaffleController {
 
             final LocalDateTime nextTablesDate = getNextTablesDate();
 
+            DateTime lunchTime = new DateTime(ZonedDateTime.now(ZoneId.of("Israel")).withHour(12).withMinute(30).withSecond(0).withNano(0).toInstant().getEpochSecond() * 1000);
             for (List<User> userList : groups.values()) {
                 final Appointment appointment = new Appointment( "At Taboola Kitchen", nextTablesDate, userList);
                 appoitnemntRepo.save(appointment);
+                Event event = calendarManager.scheduleLunch(lunchTime, 60, userList, TimeZone.getTimeZone("Israel"));
+                emailManager.sendEmail(userList, createLunchEmail(userList, event.getHangoutLink()));
             }
             final Iterable<Appointment> appointments = appoitnemntRepo.findAll();
             return HttpStatus.OK;
         } catch (Exception e){
+            logger.error("An error occurred", e);
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
 //        return appointments;
@@ -85,5 +95,13 @@ public class RaffleController {
         LocalDate nextWed = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY));
         final LocalDateTime localDateTime = nextWed.atTime(13, 0);
         return localDateTime;
+    }
+
+    private String createLunchEmail(Collection<User> users, String hangoutsLink) {
+        return "<html><body>" +
+                "<h3>You are scheduled to lunch with: </h3>" +
+                users.stream().map(user -> "<div>" + user.getName() + "</div>").collect(Collectors.joining()) +
+                "<a href='" + hangoutsLink + "'>Talk about it!</a>" +
+                "</body></html>";
     }
 }
