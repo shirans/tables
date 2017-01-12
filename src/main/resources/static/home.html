@@ -223,7 +223,7 @@
             }
 
             for (var j = 0; j < currUser.userSegments.length; j++){
-                G.addNodesFrom([currUser.name,currUser.userSegments[j].segmentName], {color: '#008A00'});
+                G.addNodesFrom([[currUser.name, {color: '#008A00'}],[currUser.userSegments[j].segmentName, {color: '#00C7AE'}]]);
                 G.addEdgesFrom([[currUser.name, currUser.userSegments[j].segmentName]]);
             }
         }
@@ -231,6 +231,10 @@
         jsnx.draw(G, {
             element: '#canvas',
             withLabels: true,
+            layoutAttr: {
+                charge: -120,
+                linkDistance: 200
+            },
             nodeStyle: {
                 fill: function(d) {
                     return d.data.color;
@@ -238,7 +242,7 @@
             },
             nodeAttr:{
                 r: function(d){
-                    return Math.max(d.node.toString().length * 5, 10);
+                    return Math.max(d.node.toString().length * 4, 10);
                 }
             },
             edgeStyle: { fill: '#999' },

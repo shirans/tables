@@ -180,7 +180,17 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
                         result[0].content[i].mail = response.users[i].mail;
                         result[0].content[i].appointmentId = response.id;
                         result[0].content[i].score = response.users[i].score;
+                        // result[0].content[i].location = response.location;
+                        // result[0].content[i].time = response.appointmentDate.hour + ":" + response.appointmentDate.minute;
                     }
+                    result[0].location = response.location;
+
+                    var minutes = response.appointmentDate.minute.toString();
+                    if (minutes.length == 1){
+                        minutes = "0" + minutes;
+                    }
+
+                    result[0].time = response.appointmentDate.hour + ":" + minutes;
                 }
                 catch (e){
                     console.log("got an exception: " + e);
