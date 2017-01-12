@@ -68,7 +68,7 @@ public class TablesConfig {
 
     @Bean
     public Gmail gmailService(JsonFactory jsonFactory, HttpTransport transport) throws IOException {
-        final InputStream resourceAsStream = CalendarManager.class.getClassLoader().getResourceAsStream("client_secret.json");
+        /*final InputStream resourceAsStream = CalendarManager.class.getClassLoader().getResourceAsStream("client_secret.json");
         GoogleCredential credential = GoogleCredential.fromStream(resourceAsStream)
                  .createScoped(Lists.newArrayList(GmailScopes.GMAIL_COMPOSE, GmailScopes.GMAIL_SEND));
                 //.createScoped(GmailScopes.all());
@@ -89,6 +89,7 @@ public class TablesConfig {
                         .build();
         Credential credential = new AuthorizationCodeInstalledApp(
                 flow, new LocalServerReceiver()).authorize("user");*/
+        return null;
     }
 
     @Bean

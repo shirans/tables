@@ -3,7 +3,7 @@ package com.taboola.tables.managers;
 import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
+// import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import com.taboola.tables.config.TablesConfig;
 import com.taboola.tables.db.User;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class EmailManager {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailManager.class);
-
+/*
     @Autowired
     Gmail gmailService;
 
@@ -96,6 +96,6 @@ public class EmailManager {
     @RequestMapping(name = "/sendEmails")
     public void sendEmails() throws MessagingException, IOException, javax.mail.MessagingException {
         User user = new User("Eyal Segal", "234234", "eyal.s@taboola.com");
-        sendEmail(Collections.singletonList(user));
-    }
+    //    sendEmail(Collections.singletonList(user));
+    }*/
 }
