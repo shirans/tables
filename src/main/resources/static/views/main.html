@@ -54,10 +54,17 @@
 
 <script>
 
+    var _myEmail = "";
+
     function onLikeClick(elm, elementId){
         console.log("elm: %o", elm);
         var userMail = $(elm).attr("itemmail");
         var appointmentId = $(elm).attr("appointmentid");
+
+        if (userMail == _myEmail){
+            alert("You can't vote for yourself!");
+            return;
+        }
 
         $.get("/add-user-score?mail=" + encodeURIComponent(userMail) + "&appointmentId=" + appointmentId, function (data){
             alert("Thanks for rating!");
@@ -71,8 +78,12 @@
 
         var userId = getUserIfAlreadyLoggedIn();
 
-        console.log("google profile: %o", googleUser.getBasicProfile());
-        //console.log("google auth: %o", googleUser.getBasicProfile().getAuthResponse());
+        try{
+            console.log("google profile: %o", googleUser.getBasicProfile());
+            _myEmail = googleUser.getBasicProfile().getEmail();
+        }catch(e){
+            console.log(e);
+        }
 
         if (userId != null){
             $("#my-signin2").hide();
