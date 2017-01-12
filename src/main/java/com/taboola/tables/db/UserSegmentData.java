@@ -10,20 +10,15 @@ import javax.persistence.Id;
 public class UserSegmentData {
     @Id
     private String tid;
-    private String segments;
-
-    public String getSegments() {
-        return segments;
-    }
-
+    private String segment;
 
     public void setTid(String tid) {
         this.tid = tid;
     }
 
-    public UserSegmentData(String tid, String segments) {
+    public UserSegmentData(String tid, String segment) {
         this.tid = tid;
-        this.segments = segments;
+        this.segment = segment;
     }
 
     public String getTid() {
@@ -31,15 +26,14 @@ public class UserSegmentData {
     }
 
     public String getSegment() {
-        return segments;
+        return segment;
     }
 
     UserSegmentData() {
     }
 
-
-    public void setSegments(String segments) {
-        this.segments = segments;
+    public void setSegment(String segments) {
+        this.segment = segment;
     }
 
 }
