@@ -17,6 +17,7 @@ public class UserDataDirectory {
     private String segmentName;
     private String description;
 
+    UserDataDirectory () {}
 
     public UserDataDirectory(Long id, String segmentId, String segmentName, String description) {
         this.id = id;
