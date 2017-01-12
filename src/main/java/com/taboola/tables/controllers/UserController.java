@@ -72,7 +72,7 @@ public class UserController {
             }
             return usersWithSegments;
         } catch (Exception e){
-            logger.error("ERROR" ,e);
+            logger.error("An error occurred", e);
             return null;
         }
     }
@@ -89,7 +89,7 @@ public class UserController {
                 }
             }
         } catch (Exception e){
-            logger.error("ERROR" ,e);
+            logger.error("An error occurred", e);
             return null;
         }
         return null;
@@ -111,7 +111,7 @@ public class UserController {
                 userRepo.save(user);
             }
             catch (Throwable e){
-                logger.error("ERROR" ,e);
+                logger.error("An error occurred", e);
             }
         }
         return "OK: " + newUsersCount;

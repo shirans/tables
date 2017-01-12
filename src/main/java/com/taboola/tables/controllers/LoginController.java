@@ -70,6 +70,7 @@ public class LoginController {
             }
         }
         catch (Throwable e){
+            logger.error("An error occurred", e);
             e.printStackTrace();
         }
 
