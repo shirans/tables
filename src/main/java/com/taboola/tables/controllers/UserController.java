@@ -98,14 +98,16 @@ public class UserController {
         try {
             if (user != null) {
                 final List<TaboolaIdentity> taboolaIdentities = user.getTaboolaIdentities();
-                if (taboolaIdentities != null) {
+                if (taboolaIdentities != null && !taboolaIdentities.isEmpty()) {
                     final List<UserSegmentData> userSegmentDataList = taboolaIdentities.stream().map(t -> userSegmentRepo.findByTid(t.getTaboolaId())).flatMap(List::stream).collect(Collectors.toList());
-                    final List<UserDataDirectory> userDataDirectoryList = userSegmentDataList.stream().map(u -> userDataDirectoryRepo.findBySegmentId(u.getSegment())).collect(Collectors.toList());
+                    final List<UserDataDirectory> userDataDirectoryList = userSegmentDataList.stream().map(x ->
+                            userDataDirectoryRepo.findBySegmentId(x.getSegment())).filter(x-> x!=null)
+                            .collect(Collectors.toList());
 
                     return userDataDirectoryList;
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error("An error occurred", e);
             return null;
         }

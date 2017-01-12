@@ -96,7 +96,7 @@ public class RaffleController {
 
     private LocalDateTime getNextTablesDate() {
         LocalDate nextWed = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY));
-        final LocalDateTime localDateTime = nextWed.atTime(13, 0);
+        final LocalDateTime localDateTime = nextWed.atTime(12, 30);
         return localDateTime;
     }
 
