@@ -84,6 +84,12 @@ public class TablesConfig {
             File tokens;
             if (path.contains("jar")) {
                 tokens = new File("/tokens-calendar");
+                System.out.println(tokens.getAbsolutePath());
+                logger.info(tokens.getAbsolutePath());
+                if (!tokens.exists()) {
+                    tokens.mkdir();
+                    logger.info(tokens.getAbsolutePath());
+                }
             } else {
                 tokens = new File(path);
             }
@@ -117,6 +123,12 @@ public class TablesConfig {
             File tokens;
             if (path.contains("jar")) {
                 tokens = new File("/tokens-gmail");
+                System.out.println(tokens.getAbsolutePath());
+                logger.info(tokens.getAbsolutePath());
+                if (!tokens.exists()) {
+                    tokens.mkdir();
+                    logger.info(tokens.getAbsolutePath());
+                }
             } else {
                 tokens = new File(path);
             }

@@ -64,7 +64,7 @@ public class AppointmentController {
             }
 
             final List<Appointment> appointments = user.getAppointments();
-            appointments.sort((o1, o2) -> o1.getAppointmentDate().compareTo(o2.getAppointmentDate()));
+            appointments.sort((o1, o2) -> o2.getCreateTime().compareTo(o1.getCreateTime()));
             if (appointments.size() == 0) {
                 logger.error("not enough participants");
                 return null;
