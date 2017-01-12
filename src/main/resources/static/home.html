@@ -158,20 +158,28 @@
 
     var chart = new CanvasJS.Chart("chartContainer",{
         title: {
-            text: "Best Rated Taboolars (to eat with, not in general...)!"
+            text: "Best Rated Taboolars (to eat with, not in general...)!",
+            fontColor: "white"
         },
         axisY: {
-            suffix: " C"
+            labelFontColor: "white",
+            titleFontColor: "white"
         },
+        axisX: {
+            labelFontColor: "white",
+            titleFontColor: "white"
+        },
+        backgroundColor: "black",
         legend :{
             verticalAlign: 'bottom',
-            horizontalAlign: "center"
+            horizontalAlign: "center",
+            fontColor: "white"
         },
         data: [
             {
                 type: "column",
                 bevelEnabled: true,
-                indexLabel: "{y} C",
+                indexLabel: "{y}",
                 dataPoints: topUsers
             }
         ]
@@ -241,6 +249,7 @@
 
     function prepareAllUsersSegmentsGraph(){
         $.get("/segments-all-users", function(data){
+            console.log("got %o for all segments", data);
             createSegmentsGraph(data, "canvas2");
         });
     }
