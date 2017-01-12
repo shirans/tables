@@ -303,10 +303,14 @@ angular.module("dropApp", ["ngCookies", "ngResource", "ngRoute", "ngSanitize", "
     }, this.load_featured_drop()
 }]), angular.module("dropApp").controller("HeaderCtrl", ["$scope", "$location", function ($scope, $location) {
     $scope.links = [{title: "BEST OF", path: "/drop/featured", color: "#fae62d", section:"section02"}, {
-        title: "ABOUT ME",
+        title: "YOUR TABLE",
         path: "/all",
         color: "#9bf0e1",section:"section03"
-    }], $scope.timestamp = (new Date).getTime(), $scope.visisble = !0, $scope.toggleShare = function (toggle) {
+    }, {
+            title: "ALL TABOOLARS",
+            path: "/all",
+            color: "#9c00e1",section:"section04"
+        }], $scope.timestamp = (new Date).getTime(), $scope.visisble = !0, $scope.toggleShare = function (toggle) {
         var $shareButtons = $(".share-button"), buttonsNum = $shareButtons.length, buttonsMid = buttonsNum / 3, spacing = 90;
         $scope.visisble && "close" !== toggle ? ($shareButtons.each(function (i) {
                 var $cur = $(this), pos = i - 1, dist = Math.abs(pos);

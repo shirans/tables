@@ -65,10 +65,12 @@ public class LoginController {
                 loginResult.setLoginSuccess(true);
 
             } else {
+                logger.warn("Invalid ID token.");
                 System.out.println("Invalid ID token.");
             }
         }
         catch (Throwable e){
+            logger.error("An error occurred", e);
             e.printStackTrace();
         }
 
