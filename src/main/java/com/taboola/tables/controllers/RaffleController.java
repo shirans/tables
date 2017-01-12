@@ -55,6 +55,9 @@ public class RaffleController {
 
         int numOfGroups = participatesList.size() / numOfParticipates;
         final Map<Integer,List<User>> groups = new HashMap<>();
+        if (numOfGroups == 0) {
+            return HttpStatus.BAD_REQUEST;
+        }
         for (int i = 0; i < participatesList.size(); i++) {
             int currentGroup = (i % numOfGroups)+1;
             if (!groups.containsKey(currentGroup)){
