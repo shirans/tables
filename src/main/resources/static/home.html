@@ -80,6 +80,33 @@
 </section>
 
 
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<section id="section03" class="demo">
+    <br />
+    <br />
+    <div style="margin:50px; display:flex; align-items:center;justify-content:center;flex-direction:column;">
+        <h1>Taboola Segments!</h1>
+        <div id="canvas" style="width:900px;height:700px;"></div>
+    </div>
+</section>
+
 <script type="text/javascript" src="/scripts/canvasjs.min.js"></script>
 <script src="scripts/vendor.js"></script>
 <script src="scripts/vendor/isotope.min.333ccf0e.js"></script>
@@ -87,15 +114,19 @@
 <script src="scripts/vendor/tweenmax.min.7c9e1e5f.js"></script>
 <script src="scripts/vendor/jquery.fancybox.pack.cc9e759f.js"></script>
 <script src="scripts/scripts.js"></script>
-
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://jsnetworkx.org/javascripts/scale.fix.js"></script>
+<script src="http://jsnetworkx.org/javascripts/jsnetworkx.js"></script>
 
 <script>
 
-    function doScroll(itemId){
+    function doScroll(elm){
+        var itemId = $(elm).attr("section");
         $('html, body').animate({ scrollTop: $("#" + itemId).offset().top}, 500, 'linear');
     }
 
     var topUsers = [];
+    var currentAppointment = null;
 
     var chart = new CanvasJS.Chart("chartContainer",{
         title: {
@@ -167,5 +198,53 @@
     var updateInterval = 1000;
     setTimeout(function() {updateChart();}, updateInterval);
     //    setInterval(function(){updateChart()}, updateInterval);
+
+</script>
+
+<script>
+
+    function createSegmentsGraph(){
+        console.log("in createSegmentsGraph");
+        if (currentAppointment == null){
+            setTimeout(function(){createSegmentsGraph()}, 5000);
+            return;
+        }
+
+        console.log("in createSegmentsGraph - not null!");
+        var G = new jsnx.DiGraph();
+
+        for (var i = 0; i < currentAppointment.users.length; i++){
+            var currUser = currentAppointment.users[i];
+
+            if (currUser.userSegments == null){
+                G.addNodesFrom([currUser.name],{color: '#008A00'});
+                continue;
+            }
+
+            for (var j = 0; j < currUser.userSegments.length; i++){
+                G.addNodesFrom([currUser.name,currUser.userSegments[i]], {color: '#008A00'});
+                G.addEdgesFrom([[currUser.name, currUser.userSegments[i]]]);
+            }
+        }
+
+        jsnx.draw(G, {
+            element: '#canvas',
+            withLabels: true,
+            nodeStyle: {
+                fill: function(d) {
+                    return d.data.color;
+                }
+            },
+            nodeAttr:{
+                r: function(d){
+                    return Math.max(d.node.toString().length * 5, 10);
+                }
+            },
+            labelStyle: {fill: 'white'},
+            stickyDrag: true
+        });
+    }
+
+    createSegmentsGraph();
 
 </script>
