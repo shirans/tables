@@ -59,6 +59,10 @@ public class AppointmentController {
 
             final List<Appointment> appointments = user.getAppointments();
             appointments.sort((o1, o2) -> o1.getAppointmentDate().compareTo(o2.getAppointmentDate()));
+            if (appointments.size()==0) {
+                logger.error("not enough participants");
+                return null;
+            }
             final Appointment nextAppointment = appointments.get(0);
 
             logger.info("appointment list is " + Arrays.toString(appointments.toArray()));
@@ -80,10 +84,10 @@ public class AppointmentController {
             if (user != null && (user.getUserSegments() == null || user.getUserSegments().isEmpty())) {
                 List<UserDataDirectory> userSegments = findSegments(user);
                 if (userSegments == null || userSegments.size() == 0){
-                    userSegments = getMockSegments();
+                    user.setUserSegments(getMockSegments());
+                } else {
+                    user.setUserSegments(userSegments);
                 }
-
-                user.setUserSegments(getMockSegments());
             }
         }
     }

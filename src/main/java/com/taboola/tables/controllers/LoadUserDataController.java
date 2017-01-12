@@ -52,7 +52,6 @@ public class LoadUserDataController {
         List<UserSegmentData> all = Lists.newArrayList(userSegmentRepo.findAll());
         logger.info("num rows: " + count + "  num records: " + all.size());
         all.forEach(x -> logger.info(x.toString()));
-
     }
 }
 
