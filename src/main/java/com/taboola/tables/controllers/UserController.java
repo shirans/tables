@@ -3,6 +3,7 @@ package com.taboola.tables.controllers;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.taboola.tables.db.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
-import com.taboola.tables.db.TaboolaIdentity;
-import com.taboola.tables.db.User;
-import com.taboola.tables.db.UserDataDirectory;
-import com.taboola.tables.db.UserDataDirectoryRepo;
-import com.taboola.tables.db.UserRepo;
-import com.taboola.tables.db.UserSegmentData;
-import com.taboola.tables.db.UserSegmentRepo;
 
 /**
  * Created by eyal.s on 11/01/2017.
@@ -46,6 +40,15 @@ public class UserController {
         } else {
             return null;
         }
+    }
+
+    @RequestMapping(value = "/getUserAppointmentByMail", method = RequestMethod.GET)
+    public Appointment getUserByMail(@RequestParam(name = "mail") String mail) {
+
+        User user = userRepo.findByMail(mail);
+        final List<Appointment> appointments = user.getAppointments();
+        appointments.sort((o1, o2) -> o1.getAppointmentDate().compareTo(o2.getAppointmentDate()));
+        return appointments.get(0);
     }
 
     @RequestMapping(value = "/allusers", method = RequestMethod.GET)
