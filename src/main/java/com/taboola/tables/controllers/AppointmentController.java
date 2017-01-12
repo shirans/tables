@@ -1,10 +1,15 @@
 package com.taboola.tables.controllers;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Lists;
 import com.taboola.tables.db.Appointment;
 import com.taboola.tables.db.AppointmentRepo;
 import com.taboola.tables.db.TaboolaIdentity;
@@ -44,22 +50,22 @@ public class AppointmentController {
     private UserDataDirectoryRepo userDataDirectoryRepo;
 
     @RequestMapping("/get-appointment")
-    public Appointment getAppointment(@RequestParam(value="GmailId") String gmail) {
+    public Appointment getAppointment(@RequestParam(value = "GmailId") String gmail) {
         if (gmail == null || gmail.isEmpty()) {
-            logger.error("Invalid gmail "+gmail);
+            logger.error("Invalid gmail " + gmail);
             return null;
         }
 
-        try{
+        try {
             final User user = userRepo.findByGmailId(gmail);
 
-            if (user == null){
+            if (user == null) {
                 return getFirstAppointment();
             }
 
             final List<Appointment> appointments = user.getAppointments();
             appointments.sort((o1, o2) -> o1.getAppointmentDate().compareTo(o2.getAppointmentDate()));
-            if (appointments.size()==0) {
+            if (appointments.size() == 0) {
                 logger.error("not enough participants");
                 return null;
             }
@@ -71,23 +77,24 @@ public class AppointmentController {
             addSegments(nextAppointment);
 
             return nextAppointment;
-        }
-        catch (Throwable e){
+        } catch (Throwable e) {
             logger.error("An error occurred", e);
             e.printStackTrace();
             return getFirstAppointment();
         }
     }
 
-    private void addSegments(Appointment appointment){
+    private void addSegments(Appointment appointment) {
         final List<User> users = appointment.getUsers();
         for (User user : users) {
-            if (user != null && (user.getUserSegments() == null || user.getUserSegments().isEmpty())) {
+            if (user != null) {
                 List<UserDataDirectory> userSegments = findSegments(user);
-                if (userSegments == null || userSegments.size() == 0){
+                if (userSegments == null || userSegments.size() == 0) {
                     user.setUserSegments(getMockSegments());
+                    logger.info("set mock user segments for user: " + user.getName() + " , segemnts:" + user.getUserSegments());
                 } else {
                     user.setUserSegments(userSegments);
+                    logger.info("found user segments for user: " + user.getName() + " , segemnts:" + user.getUserSegments().get(0));
                 }
             }
         }
@@ -97,39 +104,43 @@ public class AppointmentController {
         try {
             if (user != null) {
                 final List<TaboolaIdentity> taboolaIdentities = user.getTaboolaIdentities();
-                if (taboolaIdentities != null) {
+                if (taboolaIdentities != null && !taboolaIdentities.isEmpty()) {
                     final List<UserSegmentData> userSegmentDataList = taboolaIdentities.stream().map(t -> userSegmentRepo.findByTid(t.getTaboolaId())).flatMap(List::stream).collect(Collectors.toList());
-                    final List<UserDataDirectory> userDataDirectoryList = userSegmentDataList.stream().map(u -> userDataDirectoryRepo.findBySegmentId(u.getSegment())).collect(Collectors.toList());
+                    final List<UserDataDirectory> userDataDirectoryList = userSegmentDataList.stream().map(x ->
+                            userDataDirectoryRepo.findBySegmentId(x.getSegment())).filter(x-> x!=null)
+                            .collect(Collectors.toList());
 
                     return userDataDirectoryList;
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error("An error occurred", e);
             return null;
         }
         return null;
     }
 
-    private Appointment getRandomAppointment(){
+    private Appointment getRandomAppointment() {
         return getFirstAppointment();
     }
 
-    private List<UserDataDirectory> getMockSegments(){
+    private List<UserDataDirectory> getMockSegments() {
         ArrayList<UserDataDirectory> result = new ArrayList<>();
         int segmentCount = new Random(new Date().getTime()).nextInt(5);
-
+        if (segmentCount == 0) {
+            segmentCount = 1;
+        }
         final ArrayList<String> shuffledMockSegments = Lists.newArrayList(MOCK_SEGMENTS);
         Collections.shuffle(shuffledMockSegments);
 
-        for (int i = 0; i < segmentCount; i++){
-            result.add(new UserDataDirectory(new Long(1), "", shuffledMockSegments.get(i),shuffledMockSegments.get(i)));
+        for (int i = 0; i < segmentCount; i++) {
+            result.add(new UserDataDirectory(new Long(1), "", shuffledMockSegments.get(i), shuffledMockSegments.get(i)));
         }
 
         return result;
     }
 
-    private Appointment getMockAppointment(){
+    private Appointment getMockAppointment() {
         ArrayList<User> users = new ArrayList<>();
         users.add(createMockUser(1));
         users.add(createMockUser(2));
@@ -140,18 +151,17 @@ public class AppointmentController {
         return mock;
     }
 
-    private User createMockUser(Integer number){
+    private User createMockUser(Integer number) {
         User newUser = new User("Person " + number, number.toString(), "person" + number + "@gmail.com");
         newUser.setScore((double) (number + 10));
         return newUser;
     }
 
-    private Appointment getFirstAppointment(){
-        try{
+    private Appointment getFirstAppointment() {
+        try {
             Iterator<Appointment> cursor = appointmentRepo.findAll().iterator();
             return cursor.next();
-        }
-        catch (Throwable e){
+        } catch (Throwable e) {
             logger.error("An error occurred", e);
             e.printStackTrace();
             return getMockAppointment();
