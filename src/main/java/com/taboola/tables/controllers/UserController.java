@@ -1,7 +1,6 @@
 package com.taboola.tables.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -54,7 +53,7 @@ public class UserController {
         return Lists.newArrayList(userRepo.findAll());
     }
 
-    @RequestMapping("/segments-all-users")
+    @RequestMapping(value = "/segments-all-users", method = RequestMethod.GET)
     public List<User> getAllUserSegments() {
         try {
             final List<User> users = Lists.newArrayList(userRepo.findAll());
@@ -63,7 +62,7 @@ public class UserController {
                 if (user != null) {
                     List<UserDataDirectory> userSegments = findSegments(user);
                     if (userSegments == null || userSegments.size() == 0){
-                        //userSegments = getMockSegments();
+//                        userSegments = getMockSegments();
                         continue;
                     }
                     user.setUserSegments(userSegments);
@@ -76,6 +75,21 @@ public class UserController {
             return null;
         }
     }
+
+//    private final String[] MOCK_SEGMENTS = {"Karaoke", "Sports", "Travel", "Politics", "Comedy", "Entertainment", "Movies", "Israel", "Animals", "RealEstate"};
+//    private List<UserDataDirectory> getMockSegments(){
+//        ArrayList<UserDataDirectory> result = new ArrayList<>();
+//        int segmentCount = new Random(new Date().getTime()).nextInt(5);
+//
+//        final ArrayList<String> shuffledMockSegments = Lists.newArrayList(MOCK_SEGMENTS);
+//        Collections.shuffle(shuffledMockSegments);
+//
+//        for (int i = 0; i < segmentCount; i++){
+//            result.add(new UserDataDirectory(new Long(1), "", shuffledMockSegments.get(i),shuffledMockSegments.get(i)));
+//        }
+//
+//        return result;
+//    }
 
     private List<UserDataDirectory> findSegments(User user) {
         try {
